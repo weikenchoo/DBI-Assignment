@@ -1,9 +1,3 @@
-<?php
-    include_once "includes/database.php";
-?>
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +12,7 @@
 <body>
 <header>
 <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" style = "color:white" href = "#">SAKILA</a>
+    <a class="navbar-brand" style = "color:white" href = "index.php">SAKILA</a>
     <form class="form-inline">
     
   </form>
@@ -31,22 +25,22 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Actor</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Address</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Category</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">City</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Country</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Customer</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Film</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Film Category</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Film Text</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Inventory</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Language</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Payment</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Rental</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Staff</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Store</a>
+        <a href="table/actor.php" class="list-group-item list-group-item-action bg-light">Actor</a>
+        <a href="table/address.php" class="list-group-item list-group-item-action bg-light">Address</a>
+        <a href="table/category.php" class="list-group-item list-group-item-action bg-light">Category</a>
+        <a href="table/city.php" class="list-group-item list-group-item-action bg-light">City</a>
+        <a href="table/country.php" class="list-group-item list-group-item-action bg-light">Country</a>
+        <a href="table/customer.php" class="list-group-item list-group-item-action bg-light">Customer</a>
+        <a href="table/film.php" class="list-group-item list-group-item-action bg-light">Film</a>
+        <a href="table/film_actor.php" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
+        <a href="table/film_category.php" class="list-group-item list-group-item-action bg-light">Film Category</a>
+        <a href="table/film_text.php" class="list-group-item list-group-item-action bg-light">Film Text</a>
+        <a href="table/inventory.php" class="list-group-item list-group-item-action bg-light">Inventory</a>
+        <a href="table/language" class="list-group-item list-group-item-action bg-light">Language</a>
+        <a href="table/payment.php" class="list-group-item list-group-item-action bg-light">Payment</a>
+        <a href="table/rental.php" class="list-group-item list-group-item-action bg-light">Rental</a>
+        <a href="table/staff.php" class="list-group-item list-group-item-action bg-light">Staff</a>
+        <a href="table/store.php" class="list-group-item list-group-item-action bg-light">Store</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -54,39 +48,7 @@
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" >
-      <!-- Insert, update and delete button -->
-        <div class="d-flex justify-content-end btn-group" style="background-color:white">
-          <button class="btn btn-primary btn-lg col-lg-1">Insert</button>
-          <button class="btn btn-primary btn-lg col-lg-1">Update</button>
-          <button class="btn btn-primary btn-lg col-lg-1">Delete</button>
-        </div>
-      <!-- Table for data -->
-      <div class="table-responsive-lg">
-        <table class="table table-hover table-bordered table-striped">
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Password</th>
-          </tr>
-          <?php
-            $sql = "select * from users;";
-            $results = mysqli_query( $connection,$sql);
-            $checkResults = mysqli_num_rows($results);
-            if ($checkResults > 0 ) {
-              while($rows = mysqli_fetch_assoc($results)){
-                  echo "<tr><td>" . $rows["user_id"]. 
-                      "</td><td>". $rows["username"]. 
-                      "</td><td>". $rows["pwd"]. "</td></tr>";
-              }
-              echo "</table>";
-            }
-            else{
-              echo "0 results";
-            }
-          ?>
-          
-        
-      </div> 
+      
       
       
     </div>
