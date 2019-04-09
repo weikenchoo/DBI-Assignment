@@ -59,7 +59,8 @@
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" >
-        <table>
+      <div class="table-responsive-lg">
+        <table class="table table-hover table-bordered table-striped">
       <?php
         // $table_query = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = `sakila` AND `TABLE_NAME` = \"".$table_name."\";";           
         $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
@@ -94,7 +95,7 @@
       ?>
         </table>
       
-      
+      </div>
     </div>
     <!-- /#page-content-wrapper -->
     
