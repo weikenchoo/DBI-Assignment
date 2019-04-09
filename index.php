@@ -1,3 +1,10 @@
+<?php
+
+include "./includes/database.php";
+$conn = connect();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,22 +32,22 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       
       <div class="list-group list-group-flush">
-        <a href="table/actor.php" class="list-group-item list-group-item-action bg-light">Actor</a>
-        <a href="table/address.php" class="list-group-item list-group-item-action bg-light">Address</a>
-        <a href="table/category.php" class="list-group-item list-group-item-action bg-light">Category</a>
-        <a href="table/city.php" class="list-group-item list-group-item-action bg-light">City</a>
-        <a href="table/country.php" class="list-group-item list-group-item-action bg-light">Country</a>
-        <a href="table/customer.php" class="list-group-item list-group-item-action bg-light">Customer</a>
-        <a href="table/film.php" class="list-group-item list-group-item-action bg-light">Film</a>
-        <a href="table/film_actor.php" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
-        <a href="table/film_category.php" class="list-group-item list-group-item-action bg-light">Film Category</a>
-        <a href="table/film_text.php" class="list-group-item list-group-item-action bg-light">Film Text</a>
-        <a href="table/inventory.php" class="list-group-item list-group-item-action bg-light">Inventory</a>
-        <a href="table/language" class="list-group-item list-group-item-action bg-light">Language</a>
-        <a href="table/payment.php" class="list-group-item list-group-item-action bg-light">Payment</a>
-        <a href="table/rental.php" class="list-group-item list-group-item-action bg-light">Rental</a>
-        <a href="table/staff.php" class="list-group-item list-group-item-action bg-light">Staff</a>
-        <a href="table/store.php" class="list-group-item list-group-item-action bg-light">Store</a>
+        <a href="table/dy_table.php?table_name=actor" class="list-group-item list-group-item-action bg-light">Actor</a>
+        <a href="table/dy_table.php?table_name=address" class="list-group-item list-group-item-action bg-light">Address</a>
+        <a href="table/dy_table.php?table_name=category" class="list-group-item list-group-item-action bg-light">Category</a>
+        <a href="table/dy_table.php?table_name=city" class="list-group-item list-group-item-action bg-light">City</a> 
+        <a href="table/dy_table.php?table_name=country" class="list-group-item list-group-item-action bg-light">Country</a>
+        <a href="table/dy_table.php?table_name=customer" class="list-group-item list-group-item-action bg-light">Customer</a>
+        <a href="table/dy_table.php?table_name=film" class="list-group-item list-group-item-action bg-light">Film</a>
+        <a href="table/dy_table.php?table_name=film_actor" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
+        <a href="table/dy_table.php?table_name=film_category" class="list-group-item list-group-item-action bg-light">Film Category</a>
+        <a href="table/dy_table.php?table_name=film_text" class="list-group-item list-group-item-action bg-light">Film Text</a>
+        <a href="table/dy_table.php?table_name=inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
+        <a href="table/dy_table?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
+        <a href="table/dy_table.php?table_name=payment" class="list-group-item list-group-item-action bg-light">Payment</a>
+        <a href="table/dy_table.php?table_name=rental" class="list-group-item list-group-item-action bg-light">Rental</a>
+        <a href="table/dy_table.php?table_name=staff" class="list-group-item list-group-item-action bg-light">Staff</a>
+        <a href="table/dy_table.php?table_name=store" class="list-group-item list-group-item-action bg-light">Store</a> 
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
