@@ -13,6 +13,7 @@ $conn = connect();
     <title>Interface for SAKILA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">    <script src="main.js"></script>
 </head>
 
@@ -20,9 +21,11 @@ $conn = connect();
 <header>
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" style = "color:white" href = "index.php">SAKILA</a>
-    <form class="form-inline">
     
-  </form>
+    <button type="button" class="btn btn-default btn-sm">
+      <i class="fas fa-sign-out-alt"></i> Log out
+    </button>
+  
 </nav>
 </header>
 
@@ -55,7 +58,12 @@ $conn = connect();
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" >
-      
+      <div class = "container" id = "text-in-container">
+        <h1>Welcome to SAKILA.</h1>
+        <p class = "lead">SAKILA is a sample database of a company that rents out DVD to customers.</p> 
+        <p class = "lead">You are able to access 16 tables listed at the sidebar.</p>
+        <p class="lead">You are able to perform 3 actions which are <kbd>INSERT</kbd> , <kbd>UPDATE</kbd> , and <kbd>DELETE</kbd>  on each table present on the sidebar.</p>     
+      </div>
       
       
     </div>

@@ -16,17 +16,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Interface for SAKILA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/index.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">    <script src="main.js"></script>
 </head>
 
 <body>
 <header>
 <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" style = "color:white" href = "../index.php">SAKILA</a>
-    <form class="form-inline">
+  <div class="navbar-header mr-auto">
+    <a class="navbar-brand" href = "../index.php">SAKILA</a>
+  </div>
+  <div class="navbar nav-item" >
+    <a class="nav-link" href="#">Insert</a>
+    <a class="nav-link" href="#">Update</a>
+    <a class="nav-link" href="#">Delete</a>
+  </div>
     
-  </form>
+    <button type="button" class="btn btn-default btn-sm">
+      <i class="fas fa-sign-out-alt"></i> Log out
+    </button>
 </nav>
 </header>
 
@@ -58,8 +67,8 @@
     
 
     <!-- Page Content -->
-    <div class="page-content-wrapper container" >
-      <div class="table-responsive-lg">
+    <div class="page-content-wrapper container" id ="database-table">
+      <div class="scrollable table-responsive-lg" >
         <table class="table table-hover table-bordered table-striped">
       <?php
         // $table_query = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = `sakila` AND `TABLE_NAME` = \"".$table_name."\";";           
@@ -96,7 +105,7 @@
         </table>
       
       </div>
-    </div>
+      
     <!-- /#page-content-wrapper -->
     
     </div>

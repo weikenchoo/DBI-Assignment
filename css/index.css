@@ -54,4 +54,25 @@
     right: 16px;
     align-content: right;
   }
+
+  .scrollable{
+    height: 400px;
+    max-width: 100%;
+    
+    overflow : auto;
+  }
   
+#text-in-container{
+  padding-top: 50px;
+  font-size: 45px;
+}
+
+#database-table{
+  padding-top: 50px;
+}
+
+
+
+.navbar .nav-item .nav-link{
+  color:white;
+}
