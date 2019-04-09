@@ -47,7 +47,7 @@
         <a href="dy_table.php?table_name=film_category" class="list-group-item list-group-item-action bg-light">Film Category</a>
         <a href="dy_table.php?table_name=film_text" class="list-group-item list-group-item-action bg-light">Film Text</a>
         <a href="dy_table.php?table_name=inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
-        <a href="dy_table?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
+        <a href="dy_table.php?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
         <a href="dy_table.php?table_name=payment" class="list-group-item list-group-item-action bg-light">Payment</a>
         <a href="dy_table.php?table_name=rental" class="list-group-item list-group-item-action bg-light">Rental</a>
         <a href="dy_table.php?table_name=staff" class="list-group-item list-group-item-action bg-light">Staff</a>
