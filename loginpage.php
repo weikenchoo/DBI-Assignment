@@ -1,3 +1,10 @@
+<?php
+    include "./includes/database.php";
+    $conn = connect();
+    
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
