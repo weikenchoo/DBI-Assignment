@@ -54,4 +54,12 @@
     </form>
 </div>
 </body>
-</html>                                		     
+</html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
