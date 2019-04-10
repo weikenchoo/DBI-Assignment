@@ -35,9 +35,11 @@
   </div>
   <div class="navbar nav-item" >
     <!-- Backend will change href to respective tables -->
-    <a class="nav-link" href="../form/actor/insert.php">Insert</a>
-    <a class="nav-link" href="../form/actor/update.php">Update</a>
-    <a class="nav-link" href="#">Delete</a>
+    <?php 
+      echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
+      echo '<a class="nav-link" href="../form/'.$table_name.'/update.php">Update</a>';
+      echo '<a class="nav-link" href="#">Delete</a>';
+    ?>
   </div>
 
 <form method="POST">
