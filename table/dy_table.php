@@ -28,8 +28,9 @@
     <a class="navbar-brand" href = "../index.php">SAKILA</a>
   </div>
   <div class="navbar nav-item" >
-    <a class="nav-link" href="#">Insert</a>
-    <a class="nav-link" href="#">Update</a>
+    <!-- Backend will change href to respective tables -->
+    <a class="nav-link" href="../form/actor/insert.php">Insert</a>
+    <a class="nav-link" href="../form/actor/update.php">Update</a>
     <a class="nav-link" href="#">Delete</a>
   </div>
     
