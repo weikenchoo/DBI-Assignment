@@ -30,6 +30,7 @@ if(isset($_SESSION['login_user'])){
 	header("location: index.php");
 	
 }
+
 ?>
 
 
@@ -90,4 +91,12 @@ if(isset($_SESSION['login_user'])){
     </form>
 </div>
 </body>
-</html>                                		     
+</html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>

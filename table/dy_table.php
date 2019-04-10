@@ -85,14 +85,17 @@
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
-      <div class="scrollable table-responsive-lg" >
+
+        <!-- TODO: format the header  -->
+          <?php
+              echo '<h1>'.$table_name.'</h1>'; 
+          ?>
+      <div class="scrollable table-responsive-md" >
         <table class="table table-hover table-bordered table-striped">
       <?php
-        // $table_query = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = `sakila` AND `TABLE_NAME` = \"".$table_name."\";";           
         $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
         $query_result1 = mysqli_query($conn, $table_query);
         $fetch1 = mysqli_fetch_all($query_result1, MYSQLI_ASSOC);
-        // var_dump($fetch1);
 
         echo '<tr>';
         foreach($fetch1 as $row) {
@@ -129,3 +132,11 @@
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
