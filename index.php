@@ -1,6 +1,13 @@
 <?php
 
 include "./includes/database.php";
+
+session_start();
+
+if(!isset($_SESSION['login_user'])){
+	header('Location: loginpage.php');
+}
+
 $conn = connect();
 
 ?>
@@ -21,11 +28,20 @@ $conn = connect();
 <header>
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" style = "color:white" href = "index.php">SAKILA</a>
-    
-    <button type="button" class="btn btn-default btn-sm">
+   
+<form method="POST">   
+    <button type="submit" class="btn btn-default btn-sm" name = "logout">
       <i class="fas fa-sign-out-alt"></i> Log out
     </button>
-  
+</form>
+
+<?php
+	if(isset($_POST['logout'])){
+		session_destroy();
+		header("Location: loginpage.php");
+	}
+?>
+	
 </nav>
 </header>
 

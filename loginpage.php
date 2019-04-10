@@ -1,10 +1,45 @@
+<?php
+
+session_start();
+include "./includes/database.php";
+$conn = connect();
+$error = "";
+
+if(isset($_POST['login'])){
+	
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		
+		$sql = "select username, password from staff where username = '$username' AND password = '$password'";
+		
+		$result = mysqli_query($conn, $sql);
+		
+		if(mysqli_num_rows($result) == 0){
+			$error = "*Invalid username or password";					
+		}
+		
+		else {
+			$_SESSION['login_user'] = $username;
+			header("location: index.php");
+			
+		}
+		
+	}
+
+if(isset($_SESSION['login_user'])){
+	header("location: index.php");
+	
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Simple Login Form</title>
+<title>Login</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
@@ -40,17 +75,18 @@
 <body>
 <h1 class ="heading">SAKILA Database</h1>
 <div class="login-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form action = "" method="post">
         <h2 class="text-center">Log in</h2>       
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Username" required="required">
+            <input type="text" class="form-control" placeholder="Username" required="required" name = "username">
         </div>  
         <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" required="required">
+            <input type="password" class="form-control" placeholder="Password" required="required" name = "password">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-dark btn-block">Log in</button>
-        </div>      
+            <button type="submit" class="btn btn-dark btn-block" name = "login">Log in</button>
+        </div>    <br>  
+		<span style="color:red"> <?php echo $error?> </span>
     </form>
 </div>
 </body>

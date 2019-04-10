@@ -1,5 +1,11 @@
 <?php
     include "../includes/database.php";
+	session_start();
+
+	if(!isset($_SESSION['login_user'])){
+		header('Location: ../loginpage.php');
+	}
+
     $conn = connect();
     
     if(isset($_GET["table_name"])) {
@@ -33,10 +39,20 @@
     <a class="nav-link" href="../form/actor/update.php">Update</a>
     <a class="nav-link" href="#">Delete</a>
   </div>
-    
-    <button type="button" class="btn btn-default btn-sm">
+
+<form method="POST">
+    <button type="submit" class="btn btn-default btn-sm" name="logout">
       <i class="fas fa-sign-out-alt"></i> Log out
     </button>
+</form>
+
+<?php
+	if(isset($_POST['logout'])){
+		session_destroy();
+		header("Location: ../loginpage.php");
+	}
+?>
+	
 </nav>
 </header>
 
