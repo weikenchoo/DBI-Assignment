@@ -9,8 +9,8 @@
     }
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$f_name = isset($_POST['first_name'])?$_POST['first_name']:""; 
-		$l_name = isset($_POST['last_name'])?$_POST['last_name']:"";
+		$f_name = strtoupper(isset($_POST['first_name'])?$_POST['first_name']:""); 
+		$l_name = strtoupper(isset($_POST['last_name'])?$_POST['last_name']:"");
 		
 		$sql = "INSERT INTO actor(first_name,last_name) 
 					VALUES('$f_name','$l_name')";
