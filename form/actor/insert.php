@@ -1,10 +1,30 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";			
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$f_name = isset($_POST['first_name'])?$_POST['first_name']:""; 
+		$l_name = isset($_POST['last_name'])?$_POST['last_name']:"";
+		
+		$sql = "INSERT INTO actor(first_name,last_name) 
+					VALUES('$f_name','$l_name')";
+					
+		$result = mysqli_query($conn, $sql);
+		
+		if($result === TRUE)
+			$response = "Database updated successfully.";
+
+		else
+			$response = "Insert failed.";
+
+}
+	
 ?>
 
 
@@ -89,7 +109,7 @@
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->

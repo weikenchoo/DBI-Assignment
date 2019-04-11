@@ -1,10 +1,35 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
+	
     $conn = connect();
-    
+    $response = "";
+	
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$address = isset($_POST['address'])?$_POST['address']:""; 
+		$address2 = isset($_POST['address2'])?$_POST['address2']:"";
+		$district = isset($_POST['district'])?$_POST['district']:"";
+		$city_id = isset($_POST['city_id'])?$_POST['city_id']:"";
+		$postcode = isset($_POST['postcode'])?$_POST['postcode']:"";
+		$phone = isset($_POST['phone'])?$_POST['phone']:"";
+		
+		$sql = "INSERT INTO address(address,address2,district,city_id,postal_code,phone) 
+					VALUES('$address','$address2','$district','$city_id','$postcode','$phone')";
+					
+		$result = mysqli_query($conn, $sql);
+		
+		if($result === TRUE)
+			$response = "Database updated successfully.";
+
+		else
+			$response = "Insert failed.";
+
+}
+	
 ?>
 
 
@@ -103,12 +128,20 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">City</label>
                     <div class="col-lg-9">
-                      <select id="city" class="form-control" size="0">
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Bandar Sunway</option>
-                        
-                      </select>
-                      
+					<?php
+					$sql2 = "select city, city_id from city order by city";
+					$city_search = mysqli_query($conn, $sql2);
+					
+                      echo "<select id='city' class='form-control' size='0' name='city_id'>";
+					  if(mysqli_num_rows($city_search) > 0){
+						  while($row = mysqli_fetch_assoc($city_search)) {
+							echo "<option value='" . $row['city_id'] . "'>" . $row['city'] . "</option>";
+						  }
+					  }
+					  else 
+						echo "<option>" . "--No value--" . "</option>";
+							echo "</select>";
+					?>                   
                     </div>
                 </div>
                 <div class="form-group row">
@@ -129,7 +162,7 @@
                 <button type="submit" class="btn btn-outline-dark btn-lg " >Insert</button>
             </form>
         </div>
-      
+      <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     
     </div>

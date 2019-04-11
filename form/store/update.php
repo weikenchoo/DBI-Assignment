@@ -76,13 +76,13 @@
         <div class="card-body">
             <form class="form" role="form" autocomplete="off">
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Manager Staff ID</label>
                     <div class="col-lg-9">
                         <input class="form-control" type="text" value="Jane">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Address ID</label>
                     <div class="col-lg-9">
                         <input class="form-control" type="text" value="Bishop">
                     </div>
