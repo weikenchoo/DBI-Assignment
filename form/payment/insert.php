@@ -74,7 +74,7 @@
         </div>
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
-            <div class="form-row">
+                <div class="form-row">
                     <div class="col">
                         <label for="customer_id">Customer ID</label>
                             <select type="number" name="customer_id" id="customer_id" class="form-control form-control-sm rounded-0">
