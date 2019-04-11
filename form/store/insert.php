@@ -19,7 +19,7 @@
 		$sql = "INSERT INTO store(manager_staff_id,address_id) 
 					VALUES('$manager_id','$address_id')";
 			
-		if($address_id != -1){
+		if($address_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
 			if($result === TRUE)
 				$response = "Database updated successfully.";
@@ -122,7 +122,7 @@
 							}
 					}
 					else
-						echo "<option value = -1>" . "--NULL--" . "</option>";     
+						echo "<option value = 'NULL'>" . "--NULL--" . "</option>";     
                     echo "</select>";
 					?>
                 </div>

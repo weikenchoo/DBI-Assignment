@@ -20,7 +20,7 @@
 		$sql = "INSERT INTO address(address,address2,district,city_id,postal_code,phone) 
 					VALUES('$address','$address2','$district','$city_id','$postcode','$phone')";
 					
-		if($city_id != -1){
+		if($city_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
 			if($result === TRUE)
 				$response = "Database updated successfully.";
@@ -143,7 +143,7 @@
 						  }
 					  }
 					  else 
-						echo "<option value = -1>" . "--NULL--" . "</option>";
+						echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
 							echo "</select>";
 					?>                   
                     </div>
