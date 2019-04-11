@@ -1,5 +1,6 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
 	
     $conn = connect();
     $response = "";
@@ -161,7 +162,7 @@
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
-      <p> <?php echo $response; $response=""; ?> </p>
+      <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     
     </div>
