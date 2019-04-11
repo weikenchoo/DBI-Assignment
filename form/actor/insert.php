@@ -95,13 +95,13 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label for="first_name">First Name</label>
+                    <label >First Name</label>
                     <input type="text" class="form-control form-control-lg rounded-0" name="first_name" id="first_name" required="">
                     <div class="invalid-feedback">Oops, you missed this one.</div>
                 </div>
                 <div class="form-group">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="last_name" id="last_name" required="" autocomplete="new-password">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control form-control-lg rounded-0" name="last_name" id="last_name" required="" >
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
                 
