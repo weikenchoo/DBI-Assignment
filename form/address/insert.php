@@ -20,13 +20,17 @@
 		$sql = "INSERT INTO address(address,address2,district,city_id,postal_code,phone) 
 					VALUES('$address','$address2','$district','$city_id','$postcode','$phone')";
 					
-		$result = mysqli_query($conn, $sql);
-		
-		if($result === TRUE)
-			$response = "Database updated successfully.";
-
-		else
-			$response = "Insert failed.";
+		if($city_id != -1){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+			
+		else{
+			$response = "No available city.";
+		}
 
 }
 	
@@ -139,7 +143,7 @@
 						  }
 					  }
 					  else 
-						echo "<option>" . "--No value--" . "</option>";
+						echo "<option value = -1>" . "--NULL--" . "</option>";
 							echo "</select>";
 					?>                   
                     </div>
