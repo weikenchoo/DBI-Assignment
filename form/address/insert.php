@@ -96,8 +96,8 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">District</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" name="district" id="district" required="">
-                        <div class="invalid-feedback">Oops, you missed this one.</div>
+                        <input class="form-control" type="text" name="district" id="district" >
+                        
                     </div>
                 </div>
                 <div class="form-group row">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-outline-dark " >Insert</button>
+                <button type="submit" class="btn btn-outline-dark btn-lg " >Insert</button>
             </form>
         </div>
       

@@ -99,7 +99,6 @@
                       <select id="city" class="form-control" size="0">
                         <option value="">Kuala Lumpur</option>
                         <option value="">Bandar Sunway</option>
-                        
                       </select>
                       
                     </div>
