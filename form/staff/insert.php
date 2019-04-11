@@ -70,22 +70,59 @@
     <div class="page-content-wrapper container" id ="database-table">
     <div class="card rounded-0">
         <div class="card-header">
-            <h3 class="mb-0">Actor</h3>
+            <h3 class="mb-0">Staff</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" id="formInsert"  method="POST">
+            <form class="form" role="form" id="formInsert" method="POST">
                 <div class="form-group">
-                    <label for="uname1">First Name</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
-                    <div class="invalid-feedback">Oops, you missed this one.</div>
+                    <label for="first_name">First Name</label>
+                    <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="">
                 </div>
                 <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
-                    <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
+                    <label for="last_name">Last Name</label>
+                    <input type="password" class="form-control form-control-sm rounded-0" name="last_name" id="last_name" required="">
                 </div>
-                
-                <button type="submit" class="btn btn-outline-dark " >Insert</button>
+                <div class="form-group">
+                    <label for="address_id">Address ID</label>
+                        <select type="text" name="address_id" id="address_id" class="form-control form-control-sm rounded-0">
+                            <option value="">Kuala Lumpur</option>
+                            <option value="">Bandar Sunway</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="picture">Insert Picture</label>
+                    <input type="file" class="form-control-file" name="picture" id="picture">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control form-control-sm rounded-0" name="email" id="email" required="">
+                </div>
+                <div class="form-group">
+                    <label for="store_id">Store ID</label>
+                        <select type="number" name="store_id" id="store_id" class="form-control form-control-sm rounded-0">
+                            <option value="">Kuala Lumpur</option>
+                            <option value="">Bandar Sunway</option>
+                        </select>
+                </div>
+                <label for="active">Active</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" name="active" id="active">
+                    <label class="form-check-label" for="active">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="0" name="active" id="active">
+                    <label class="form-check-label" for="active">No</label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control form-control-sm rounded-0" required="required" name="username" id="username">
+                </div>  
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control form-control-sm rounded-0" required="required" name="password" id="password">
+                </div>
+                <button type="submit" class="btn btn-outline-dark ">Insert</button>
             </form>
         </div>
       

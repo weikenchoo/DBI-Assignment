@@ -76,13 +76,13 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label for="uname1">First Name</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
+                    <label for="first_name">First Name</label>
+                    <input type="text" class="form-control form-control-lg rounded-0" name="first_name" id="first_name" required="">
                     <div class="invalid-feedback">Oops, you missed this one.</div>
                 </div>
                 <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" class="form-control form-control-lg rounded-0" name="last_name" id="last_name" required="" autocomplete="new-password">
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
                 
