@@ -120,7 +120,7 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">District</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" name="district" id="district" required="">
+                        <input class="form-control" type="text" name="district" id="district">
                         <div class="invalid-feedback">Oops, you missed this one.</div>
                     </div>
                 </div>
