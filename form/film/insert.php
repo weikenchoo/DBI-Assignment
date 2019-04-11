@@ -25,12 +25,12 @@
        }
     
 
-	$sql = "INSERT INTO film(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) 
+	$query1 = "INSERT INTO film(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) 
 				VALUES('$title', '$description', '$release_year', '$language_id', '$original_language_id', '$rental_duration', '$rental_rate', '$length', 
 				'$replacement_cost', '$rating', '$special_features')";
 					
 	if($language_id != 'NULL'){
-		$result = mysqli_query($conn, $sql);
+		$result = mysqli_query($conn, $query1);
 		if($result === TRUE){
 			$response = "Database updated successfully.";
 			$special_features = "";
@@ -140,8 +140,8 @@
                       <label for="lang">Language</label>
 					  <?php
                       echo "<select name='language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
-					  $sql2 = "select language_id, name from language";
-					  $language_search = mysqli_query($conn, $sql2);
+					  $query2 = "SELECT language_id, name FROM language";
+					  $language_search = mysqli_query($conn, $query2);
 					  if(mysqli_num_rows($language_search) > 0){
 						  while($row = mysqli_fetch_assoc($language_search)){
 							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
@@ -158,8 +158,8 @@
                       <label for="ori">Original language</label>
 					  <?php
                       echo "<select name='original_language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
-					  $sql2 = "select language_id, name from language";
-					  $language_search = mysqli_query($conn, $sql2);
+					  $query3 = "SELECT language_id, name FROM language";
+					  $language_search = mysqli_query($conn, $query3);
 					  if(mysqli_num_rows($language_search) > 0){
 						  while($row = mysqli_fetch_assoc($language_search)){
 							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";

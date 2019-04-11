@@ -110,11 +110,11 @@
 					<?php
                     echo "<select type='text' class='form-control form-control-lg rounded-0' name='address_id' id='ID'>";
 					//return addresses which does not exist in customer,store and staff tables
-					$sql2 = "select a.address_id, a.address from address a 
-							where NOT EXISTS(select c.address_id from customer c where a.address_id = c.address_id) and 
-							NOT EXISTS(select s.address_id from store s where a.address_id = s.address_id) and 
-							NOT EXISTS(select s2.address_id from staff s2 where a.address_id = s2.address_id)
-							order by a.address";
+					$sql2 = "SELECT a.address_id, a.address FROM address a 
+							WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
+							NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
+							NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
+							ORDER BY a.address";
 					$address_search = mysqli_query($conn,$sql2);
 					if(mysqli_num_rows($address_search) > 0){
 							while($row = mysqli_fetch_assoc($address_search)){
