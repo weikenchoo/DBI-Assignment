@@ -1,5 +1,6 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";			
     $conn = connect();
     
     if(isset($_GET["table_name"])) {
