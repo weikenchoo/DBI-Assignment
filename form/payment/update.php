@@ -98,7 +98,7 @@
                     </div>
                     <div class="col">
                         <label for="payment_date">Payment Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date" required="">
+                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date" required="" placeholder="For example:2014-01-02T11:42:13.510">
                     </div>
                 </div>
                 <br>

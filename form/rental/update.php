@@ -91,11 +91,11 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="rental_date">Rental Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0" name="rental_date" id="rental_date" required="">
+                        <input type="datetime-local" class="form-control form-control-sm rounded-0" name="rental_date" id="rental_date" required="" placeholder="For example:2014-01-02T11:42:13.510">
                     </div>
                     <div class="col">
                         <label for="return_date">Return Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0" name="return_date" id="return_date" required="">
+                        <input type="datetime-local" class="form-control form-control-sm rounded-0" name="return_date" id="return_date" required="" placeholder="For example:2014-01-02T11:42:13.510">
                     </div>
                 </div>
                 <br>
