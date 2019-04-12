@@ -1,10 +1,28 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$name = isset($_POST['name'])?$_POST['name']:""; 
+		
+		$sql = "INSERT INTO category(name) 
+					VALUES('$name')";
+					
+		$result = mysqli_query($conn, $sql);
+		
+		if($result === TRUE)
+			$response = "Database updated successfully.";
+
+		else
+			$response = "Insert failed.";
+
+}
 ?>
 
 
@@ -78,7 +96,7 @@
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
