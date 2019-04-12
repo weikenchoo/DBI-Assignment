@@ -1,10 +1,32 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$city = isset($_POST['city'])?$_POST['city']:""; 
+		$country_id = isset($_POST['country_id'])?$_POST['country_id']:"";
+		
+		$sql = "INSERT INTO city(city,country_id) 
+					VALUES('$city','$country_id')";
+			
+		if($country_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+			
+		else{
+			$response = "No available country.";
+		}
+}
 ?>
 
 
@@ -77,18 +99,28 @@
                     <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="">
                 </div>
                 <div class="form-group">
-                  <label for="country_id">Country ID</label>
-                  <select class="form-control form-control-lg" name="country_id" id="country_id">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                  <label for="country_id">Country</label>
+				  <?php
+                  echo "<select class='form-control form-control-lg' name='country_id' id='country_id'>";
+				  $sql2 = "SELECT country_id, country FROM country ORDER BY country";
+				  $country_search = mysqli_query($conn, $sql2);
+				  if($country_search > 0){
+					  while($row = mysqli_fetch_assoc($country_search)){
+							echo "<option value='" . $row['country_id'] . "'>" . $row['country'] . "</option>";
+					  }
+				  }
+				  else 
+					  echo "<option value='NULL'> --NULL-- </option>";
+
+                  echo "</select>";
+				  ?>
                 </div>
                 
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
