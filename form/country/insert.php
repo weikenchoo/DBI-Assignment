@@ -75,7 +75,7 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
             <div class="form-group">
-              <label for="name">Country</label>
+              <label for="country">Country</label>
               <input type="text" class="form-control form-control-lg rounded-0" name="country" id="country" required="">
             </div>
                 

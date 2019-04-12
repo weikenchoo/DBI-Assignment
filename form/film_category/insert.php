@@ -75,14 +75,14 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
             <div class="form-group">
-              <label >Film ID</label>
+              <label for="film_id">Film ID</label>
               <select class="form-control form-control-lg" name="film_id" id="film_id">                   
                 <option value="">1</option>
                 <option value="">2</option>
               </select>
             </div>
             <div class="form-group">
-              <label >Category ID</label>
+              <label for="category_id">Category ID</label>
               <select class="form-control form-control-lg" name="category_id" id="category_id">
                 <option value="">1</option>
                 <option value="">2</option>

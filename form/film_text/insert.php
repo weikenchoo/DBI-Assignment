@@ -75,11 +75,11 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
               <div class="form-group">
-                <label for="name">Title</label>
+                <label for="title">Title</label>
                 <input type="text" class="form-control form-control-lg rounded-0" name="title" id="title" required="">
               </div>
               <div class="form-group">
-              <label>Description</label>
+              <label for="description">Description</label>
                   <textarea class="form-control form-control-lg rounded-0" name="description" id="" cols="10" rows="2" required=""></textarea>
               </div>
                 

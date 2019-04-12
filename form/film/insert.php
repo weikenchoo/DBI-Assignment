@@ -115,14 +115,14 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                      <label>Title</label>
+                      <label for="title">Title</label>
                       <input type="text" class="form-control form-control-sm rounded-0" name="title" id="title" required="">
                       
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                      <label>Release year</label>
+                      <label for="release_year">Release year</label>
                       <input type="text" class="form-control form-control-sm rounded-0" name="release_year" id="release_year" required="">
                       
                   </div>
@@ -130,7 +130,7 @@
               </div>
                 
               <div class="form-group">
-                  <label>Description</label>
+                  <label for="description">Description</label>
                   <textarea class="form-control form-control-sm rounded-0" name="description" id="" cols="10" rows="2" required=""></textarea>
                   
               </div>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                      <label>Rental duration</label>
+                      <label for="rental_duration">Rental duration</label>
                       <input type="number" class="form-control form-control-sm " name="rental_duration" id="rental_duration" required="" >
                       
                   </div>
@@ -181,21 +181,21 @@
               <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label>Length</label>
+                        <label for="length">Length</label>
                         <input type="number" class="form-control form-control-sm " name="length" id="length" required="" >
                         
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                        <label>Replacement cost</label>
+                        <label for="replacement_cost">Replacement cost</label>
                         <input type="number" class="form-control form-control-sm " name="replacement_cost" id="replacement_cost" step ="0.01" required="" >
                         
                     </div>
                   </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                      <label>Rental rate</label>
+                      <label for="rental_rate">Rental rate</label>
                       <input type="number" class="form-control form-control-sm rounded-0" name="rental_rate" id="rental_rate" step ="0.01" required="">
                   </div>
                 </div>
@@ -203,7 +203,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                      <label>Rating</label>
+                      <label for="rating">Rating</label>
                       <select name="rating" id="rating" class="form-control form-control-sm" required="">
                         <option value="G">G</option>
                         <option value="R">R</option>
@@ -217,7 +217,7 @@
               <div class="row">
               <div class="col-sm-6">
                   <div class="form-group">
-                      <label>Special features</label>
+                      <label for="special_features">Special features</label>
                       <select multiple name="special_features_array[]" id="special_features" class="form-control form-control-sm" required="">
                         <option value="Behind the scenes">Behind the scenes</option>
                         <option value="Trailers">Trailers</option>

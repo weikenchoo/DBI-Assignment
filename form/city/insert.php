@@ -75,11 +75,11 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label>City</label>
+                    <label for="city">City</label>
                     <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="">
                 </div>
                 <div class="form-group">
-                  <label>Country ID</label>
+                  <label for="country_id">Country ID</label>
                   <select class="form-control form-control-lg" name="country_id" id="country_id">
                     <option value="">1</option>
                     <option value="">2</option>

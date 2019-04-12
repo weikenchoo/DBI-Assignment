@@ -75,19 +75,19 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label >First Name</label>
+                    <label for="first_name">First Name</label>
                     <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="">
                     <div class="invalid-feedback">Oops, you missed this one.</div>
                 </div>
                 <div class="form-group">
-                    <label>Last Name</label>
+                    <label for="last_name">Last Name</label>
                     <input type="text" class="form-control form-control-sm rounded-0" name ="last_name" id="last_name" required="" >
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Store ID</label>
+                      <label for="store_id">Store ID</label>
                       <select class="form-control form-control-sm" name="store_id" id="store_id">
                         <option value="">1</option>
                         <option value="">2</option>
@@ -96,7 +96,7 @@
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label>Address ID</label>
+                      <label fo="addres_id">Address ID</label>
                       <select class="form-control form-control-sm" name="address_id" id="address_id">
                         <option value="">1</option>
                         <option value="">2</option>
