@@ -1,10 +1,37 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$store_id = isset($_POST['district'])?$_POST['district']:"";
+		$f_name = strtoupper(isset($_POST['first_name'])?$_POST['first_name']:""); 
+		$l_name = strtoupper(isset($_POST['last_name'])?$_POST['last_name']:"");
+		$email = isset($_POST['email'])?$_POST['email']:"";
+		$address_id = isset($_POST['address_id'])?$_POST['address_id']:"";
+		$active = isset($_POST['active'])?$_POST['active']:"";
+		
+		$sql = "INSERT INTO customer(store_id,first_name,last_name,email,addres_id,active,create_date) 
+					VALUES('$store_id','$f_name','$l_name','$email','$address_id','$active',CURRENT_TIMESTAMP)";
+					
+		if($address_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+			
+		else{
+			$response = "No available address.";
+		}
+
+}
 ?>
 
 
