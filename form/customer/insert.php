@@ -70,20 +70,54 @@
     <div class="page-content-wrapper container" id ="database-table">
     <div class="card rounded-0">
         <div class="card-header">
-            <h3 class="mb-0">Actor</h3>
+            <h3 class="mb-0">Customer</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label for="uname1">First Name</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
+                    <label >First Name</label>
+                    <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="">
                     <div class="invalid-feedback">Oops, you missed this one.</div>
                 </div>
                 <div class="form-group">
                     <label>Last Name</label>
-                    <input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
+                    <input type="text" class="form-control form-control-sm rounded-0" name ="last_name" id="last_name" required="" >
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Store ID</label>
+                      <select class="form-control form-control-sm" name="store_id" id="store_id">
+                        <option value="">1</option>
+                        <option value="">2</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Address ID</label>
+                      <select class="form-control form-control-sm" name="address_id" id="address_id">
+                        <option value="">1</option>
+                        <option value="">2</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                </div>
+                <label for="active">Active</label>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="1" name="active" id="active">
+                    <label class="form-check-label" for="active">Yes</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" value="0" name="active" id="active">
+                      <label class="form-check-label" for="active">No</label>
+                  </div>
+                </div>
+                  
+                
                 
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>

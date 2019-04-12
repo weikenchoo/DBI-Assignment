@@ -79,14 +79,14 @@
                   <div class="form-group">
                       <label>Title</label>
                       <input type="text" class="form-control form-control-sm rounded-0" name="title" id="title" required="">
-                      <div class="invalid-feedback">Oops, you missed this one.</div>
+                      
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                       <label>Release year</label>
                       <input type="text" class="form-control form-control-sm rounded-0" name="release_year" id="release_year" required="">
-                      <div class="invalid-feedback">Oops, you missed this one.</div>
+                      
                   </div>
                 </div>
               </div>
