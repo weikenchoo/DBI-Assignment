@@ -1,10 +1,48 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
-    
+    $response = "";
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$title = isset($_POST['title'])?strtoupper($_POST['title']):""; 
+		$description = isset($_POST['description'])?$_POST['description']:"";
+		$release_year = isset($_POST['release_year'])?$_POST['release_year']:"";
+		$language_id = isset($_POST['language_id'])?$_POST['language_id']:"";
+		$original_language_id = isset($_POST['original_language_id'])?$_POST['original_language_id']:"";
+		$rental_duration = isset($_POST['rental_duration'])?$_POST['rental_duration']:"";
+		$rental_rate = isset($_POST['rental_rate'])?$_POST['rental_rate']:"";
+		$length = isset($_POST['length'])?$_POST['length']:"";
+		$replacement_cost = isset($_POST['replacement_cost'])?$_POST['replacement_cost']:"";
+		$rating = isset($_POST['rating'])?$_POST['rating']:"";
+		$special_features_array[] = $_POST['special_features_array'];//array to store multiple selections of special_features
+		
+	if(count($_POST['special_features_array'])>0){
+			$special_features = implode(",",$special_features_array[0]); //an array of arrays, so use $special_features_array[0]
+       }
+    
+
+	$query1 = "INSERT INTO film(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) 
+				VALUES('$title', '$description', '$release_year', '$language_id', '$original_language_id', '$rental_duration', '$rental_rate', '$length', 
+				'$replacement_cost', '$rating', '$special_features')";
+					
+	if($language_id != 'NULL'){
+		$result = mysqli_query($conn, $query1);
+		if($result === TRUE){
+			$response = "Database updated successfully.";
+			$special_features = "";
+		}
+		else
+			$response = "Insert failed.";
+		}
+			
+		else{
+			$response = "No available language.";
+		}
+	}
 ?>
 
 
@@ -93,28 +131,43 @@
                 
               <div class="form-group">
                   <label>Description</label>
-                  <textarea class="form-control form-control-sm rounded-0" name="desc" id="" cols="10" rows="2" required=""></textarea>
+                  <textarea class="form-control form-control-sm rounded-0" name="description" id="" cols="10" rows="2" required=""></textarea>
                   
               </div>
               <div class="row">
                 <div class="col-sm-4">
                   <div class="form-group">
                       <label for="lang">Language</label>
-                      <select id="language" class="form-control form-control-sm" size="0" required="">
-                        
-                        <option value="">English</option>
-                        <option value="">Chinese</option>
-                      </select>
+					  <?php
+                      echo "<select name='language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
+					  $query2 = "SELECT language_id, name FROM language";
+					  $language_search = mysqli_query($conn, $query2);
+					  if(mysqli_num_rows($language_search) > 0){
+						  while($row = mysqli_fetch_assoc($language_search)){
+							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
+						  }
+					  }
+					  else 
+						  echo "<option value = 'NULL'>" . "--NULL--" . "</option>"; 
+                      echo "</select>";
+					  ?>
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
                       <label for="ori">Original language</label>
-                      <select class="form-control form-control-sm" name ="original_language_id" id="language"  size="0">
-                        <option value="null">--NULL--</option>
-                        <option value="">English</option>
-                        <option value="">Chinese</option>
-                      </select>
+					  <?php
+                      echo "<select name='original_language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
+					  $query3 = "SELECT language_id, name FROM language";
+					  $language_search = mysqli_query($conn, $query3);
+					  if(mysqli_num_rows($language_search) > 0){
+						  while($row = mysqli_fetch_assoc($language_search)){
+							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
+						  }
+					  }
+					  echo "<option value = ''>" . "--NULL--" . "</option>";
+                      echo "</select>";
+					  ?>
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -152,11 +205,11 @@
                   <div class="form-group">
                       <label>Rating</label>
                       <select name="rating" id="rating" class="form-control form-control-sm" required="">
-                        <option value="">G</option>
-                        <option value="">R</option>
-                        <option value="">PG-13</option>
-                        <option value="">PG</option>
-                        <option value="">NC-17</option>
+                        <option value="G">G</option>
+                        <option value="R">R</option>
+                        <option value="PG-13">PG-13</option>
+                        <option value="PG">PG</option>
+                        <option value="NC-17">NC-17</option>
                       </select>
                   </div>
                 </div>
@@ -165,11 +218,11 @@
               <div class="col-sm-6">
                   <div class="form-group">
                       <label>Special features</label>
-                      <select multiple name="special_features" id="special_features" class="form-control form-control-sm" required="">
-                        <option value="">Behind the scenes</option>
-                        <option value="">Trailers</option>
-                        <option value="">Commentaries</option>
-                        <option value="">Deleted scenes</option>
+                      <select multiple name="special_features_array[]" id="special_features" class="form-control form-control-sm" required="">
+                        <option value="Behind the scenes">Behind the scenes</option>
+                        <option value="Trailers">Trailers</option>
+                        <option value="Commentaries">Commentaries</option>
+                        <option value="Deleted scenes">Deleted scenes</option>
                       </select>
                   </div>
                 </div>
@@ -181,7 +234,7 @@
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->

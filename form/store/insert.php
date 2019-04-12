@@ -1,10 +1,37 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";	
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if(isset($_GET["table_name"])) {
+        $table_name = $_GET["table_name"];
+    }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$manager_id = isset($_POST['manager_staff_id'])?$_POST['manager_staff_id']:""; 
+		$address_id = isset($_POST['address_id'])?$_POST['address_id']:"";
+		
+		$sql = "INSERT INTO store(manager_staff_id,address_id) 
+					VALUES('$manager_id','$address_id')";
+			
+		if($address_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+			
+		else{
+			$response = "No available address.";
+		}
+}
+
 ?>
 
 
@@ -80,16 +107,30 @@
                 </div>
                 <div class="form-group">
                     <label for="address_id">Address ID</label>
-                    <select type="text" class="form-control form-control-lg rounded-0" name="address_id" id="ID">
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Bandar Sunway</option>
-                    </select>
+					<?php
+                    echo "<select type='text' class='form-control form-control-lg rounded-0' name='address_id' id='ID'>";
+					//return addresses which does not exist in customer,store and staff tables
+					$sql2 = "SELECT a.address_id, a.address FROM address a 
+							WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
+							NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
+							NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
+							ORDER BY a.address";
+					$address_search = mysqli_query($conn,$sql2);
+					if(mysqli_num_rows($address_search) > 0){
+							while($row = mysqli_fetch_assoc($address_search)){
+								echo "<option value='" . $row['address_id'] . "'>" . $row['address'] . "</option>";
+							}
+					}
+					else
+						echo "<option value = 'NULL'>" . "--NULL--" . "</option>";     
+                    echo "</select>";
+					?>
                 </div>
                 
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
-      
+      <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     
     </div>
