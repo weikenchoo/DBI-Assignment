@@ -1,9 +1,48 @@
 <?php
     include "../../includes/database.php";
     $conn = connect();
+
+    $response ="";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM address WHERE address_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $address = !empty($_POST['address'])?$_POST['address']:$fetch[0]['address'];
+        $address2 = !empty($_POST['address2'])?$_POST['address2']:$fetch[0]['address2'];
+        $district = !empty($_POST['district'])?$_POST['district']:$fetch[0]['district'];
+        $city_id = !empty($_POST['city_id'])?$_POST['city_id']:$fetch[0]['city_id'];
+        $postal_code = !empty($_POST['postal_code'])?$_POST['postal_code']:$fetch[0]['postal_code'];
+        $phone = !empty($_POST['phone'])?$_POST['phone']:$fetch[0]['phone'];
+
+
+        $update_query = "UPDATE address SET address='".$address."', address2='".$address2."', district='".$district."', city_id='".$city_id."', postal_code='".$postal_code."',
+                        phone='".$phone."' 
+                            WHERE address_id = ".$id;
+
+        if($city_id != 'NULL'){
+			$result = mysqli_query($conn, $update_query);
+			if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=address');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+			$response = "No available city.";
+		}
     }
 ?>
 
@@ -74,46 +113,68 @@
             <h4 class="mb-0">Address</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form class="form" role="form" autocomplete="off" method = "POST">
+                <?php 
+                    $query = "SELECT * FROM address WHERE address_id =".$id;
+                    $result = mysqli_query($conn, $query);
+                    $fetch_ori = mysqli_fetch_all($result, MYSQLI_ASSOC);                            
+                ?>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Address</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" >
+                        <input class="form-control" type="text" name= "address" value = "<?php echo $fetch_ori[0]['address'] ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Address 2</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" name="address2" id="address2" >
+                        <input class="form-control" type="text" name="address2" id="address2" value = "<?php echo $fetch_ori[0]['address2'] ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">District</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" >
+                        <input class="form-control" type="text" name= "district" value = "<?php echo $fetch_ori[0]['district'] ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">City</label>
                     <div class="col-lg-9">
-                      <select id="city" class="form-control" size="0">
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Bandar Sunway</option>
-                      </select>
+                        <?php
+                            $check_query2 = "SELECT city_id FROM address WHERE address_id =".$id;
+                            $original_city = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+
+					        $options_query = "SELECT city, city_id FROM city ORDER BY city";
+					        $city_search = mysqli_query($conn, $options_query);
+					
+                            echo "<select id='city' class='form-control' size='0' name='city_id'>";
+                            if(mysqli_num_rows($city_search) > 0){
+                                while($row = mysqli_fetch_assoc($city_search)) {
+                                    if($row['city_id'] == $original_city[0]['city_id']) {
+                                        echo "<option value='" . $row['city_id'] . "' selected>" . $row['city'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['city_id'] . "'>" . $row['city'] . "</option>";
+                                    }                                    
+                                }
+                            }
+                            else 
+                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                    echo "</select>";
+					?>   
                       
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Postal Code</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="number" name="postcode" id="postcode" >
+                        <input class="form-control" type="number" name="postcode" id="postcode" value = "<?php echo $fetch_ori[0]['postal_code'] ?>">
                         
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Phone</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="number" name="phone" id="phone" >
+                        <input class="form-control" type="number" name="phone" id="phone" value = "<?php echo $fetch_ori[0]['phone'] ?>">
                         
                     </div>
                 </div>
@@ -122,11 +183,12 @@
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
                         <input type="reset" class="btn btn-secondary" value="Cancel">
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                        <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>
             </form>
         </div>
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
     

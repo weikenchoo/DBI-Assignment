@@ -24,7 +24,6 @@
         $l_name = !empty($_POST['last_name'])?$_POST['last_name']:$fetch[0]['last_name'];
 
         $update_query = "UPDATE actor SET first_name='".strtoupper($f_name)."', last_name='".strtoupper($l_name)."' WHERE actor_id = ".$id;
-        echo $update_query;
         
         if (!mysqli_query($conn, $update_query)) {
             echo "UPDATE failed!\n";
