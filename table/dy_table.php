@@ -1,15 +1,16 @@
 <?php
     include "../includes/database.php";
-	session_start();
+	  session_start();
 
-	if(!isset($_SESSION['login_user'])){
-		header('Location: ../loginpage.php');
-	}
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../loginpage.php');
+    }
 
     $conn = connect();
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+        // var_dump($_SESSION);
     }
 ?>
 
@@ -110,6 +111,7 @@
         $row_count = mysqli_num_rows($query_result2);
         $field_count = mysqli_num_fields($query_result2);
         // var_dump($field_count);
+        // var_dump($fetch2[0][0]);
 
         for($i = 0; $i < $row_count; $i++) {
             echo '<tr>';
@@ -123,16 +125,21 @@
             echo '<td>
                   <div class="container">
                   <div class="row">
-                  <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php"><i class="far fa-edit"></i>Update</a>
+                  <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
                   <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
                   </div>
                   </div>
                   ';
             echo '</tr>';
+            // problem cause it will keep replacing $_SESSION[id]
+            // $_SESSION['id'] = $fetch2[$i][0];
         }        
 
 
       ?>
+      <!-- <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php"><i class="far fa-edit"></i>Update</a>
+      <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a> -->
+
         </table>
       
       </div>
