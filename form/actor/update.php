@@ -1,9 +1,36 @@
 <?php
     include "../../includes/database.php";
+    session_start();
     $conn = connect();
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
-    if(isset($_GET["table_name"])) {
-        $table_name = $_GET["table_name"];
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        // $id = $_SESSION['id'];
+
+        $check_query = "SELECT * FROM actor WHERE actor_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $f_name = !empty($_POST['first_name'])?$_POST['first_name']:$fetch[0]['first_name'];
+        $l_name = !empty($_POST['last_name'])?$_POST['last_name']:$fetch[0]['last_name'];
+
+        $update_query = "UPDATE actor SET first_name='".strtoupper($f_name)."', last_name='".strtoupper($l_name)."' WHERE actor_id = ".$id;
+        
+        if (!mysqli_query($conn, $update_query)) {
+            echo "UPDATE failed!\n";
+        } else {
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=actor');
+        }
     }
 ?>
 
@@ -72,17 +99,22 @@
             <h4 class="mb-0">Actor</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form method = "POST" class="form" role="form" autocomplete="off" >
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">First name</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
+                        <?php 
+                            $query = "SELECT * FROM actor WHERE actor_id =".$id;
+                            $result = mysqli_query($conn, $query);
+                            $fetch_ori = mysqli_fetch_all($result, MYSQLI_ASSOC);                            
+                        ?>
+                        <input class="form-control" type="text" name = "first_name" value = "<?php echo $fetch_ori[0]['first_name'] ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Last name</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
+                        <input class="form-control" type="text" name = "last_name" value = "<?php echo $fetch_ori[0]['last_name'] ?>">
                     </div>
                 </div>
                 
@@ -97,7 +129,6 @@
         </div>
     </div>
       
-    
     
     </div>
     <!-- /#page-content-wrapper -->

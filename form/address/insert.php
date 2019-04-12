@@ -130,7 +130,7 @@
                     <label class="col-lg-3 col-form-label form-control-label">City</label>
                     <div class="col-lg-9">
 					<?php
-					$sql2 = "select city, city_id from city order by city";
+					$sql2 = "SELECT city, city_id FROM city ORDER BY city";
 					$city_search = mysqli_query($conn, $sql2);
 					
                       echo "<select id='city' class='form-control' size='0' name='city_id'>";
