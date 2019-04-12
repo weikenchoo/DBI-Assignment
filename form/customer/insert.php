@@ -9,15 +9,15 @@
     }
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$store_id = isset($_POST['district'])?$_POST['district']:"";
+		$store_id = isset($_POST['store_id'])?$_POST['store_id']:"";
 		$f_name = strtoupper(isset($_POST['first_name'])?$_POST['first_name']:""); 
 		$l_name = strtoupper(isset($_POST['last_name'])?$_POST['last_name']:"");
 		$email = isset($_POST['email'])?$_POST['email']:"";
 		$address_id = isset($_POST['address_id'])?$_POST['address_id']:"";
 		$active = isset($_POST['active'])?$_POST['active']:"";
-		
-		$sql = "INSERT INTO customer(store_id,first_name,last_name,email,addres_id,active,create_date) 
-					VALUES('$store_id','$f_name','$l_name','$email','$address_id','$active',CURRENT_TIMESTAMP)";
+		echo $active;
+		$sql = "INSERT INTO customer(store_id,first_name,last_name,email,address_id,active,create_date) 
+					VALUES('$store_id','$f_name','$l_name','$email','$address_id',$active,CURRENT_TIMESTAMP)";
 					
 		if($address_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
@@ -116,19 +116,42 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="store_id">Store ID</label>
-                      <select class="form-control form-control-sm" name="store_id" id="store_id">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                      </select>
+					  <?php
+                      echo "<select class='form-control form-control-sm' name='store_id' id='store_id'>";
+					  $sql2 = "SELECT store_id FROM store ORDER BY store_id";
+					  $store_search = mysqli_query($conn,$sql2);
+					  if(mysqli_num_rows($store_search) > 0){
+						  while($row=mysqli_fetch_assoc($store_search)){
+								echo "<option value='" .$row['store_id'] . "'>" .$row['store_id'] . "</option>";
+						  }
+					  }
+					  else
+						  echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                      echo "</select>";
+					  ?>
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label fo="addres_id">Address ID</label>
-                      <select class="form-control form-control-sm" name="address_id" id="address_id">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                      </select>
+                      <label fo="addres_id">Address </label>
+					<?php
+                    echo "<select class='form-control form-control-sm' name='address_id' id='address_id'>";
+					//return addresses which does not exist in customer,store and staff tables
+					$sql3 = "SELECT a.address_id, a.address FROM address a 
+							WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
+							NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
+							NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
+							ORDER BY a.address";
+					$address_search = mysqli_query($conn,$sql3);
+					if(mysqli_num_rows($address_search) > 0){
+							while($row = mysqli_fetch_assoc($address_search)){
+								echo "<option value='" . $row['address_id'] . "'>" . $row['address'] . "</option>";
+							}
+					}
+					else
+						echo "<option value = 'NULL'>" . "--NULL--" . "</option>";     
+                    echo "</select>";
+					?>
                     </div>
                   </div>
                   
@@ -151,7 +174,7 @@
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
