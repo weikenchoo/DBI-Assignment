@@ -68,27 +68,30 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h4 class="mb-0">Inventory</h4>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
+            <div class="form-row">
+                    <div class="col">
+                        <label for="film_id">Film ID</label>
+                            <select type="number" name="film_id" id="film_id" class="form-control rounded-0">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
+                    </div>
+                    <div class="col">
+                        <label for="Store_id">Store ID</label>
+                            <select type="number" name="Store_id" id="Store_id" class="form-control rounded-0">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                <br>
+                <div class="form-row">
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
-                    </div>
-                </div>
-                
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                        <input type="reset" class="btn btn-secondary" value="Clear">
                         <input type="button" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>

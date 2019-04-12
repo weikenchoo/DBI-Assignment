@@ -67,27 +67,48 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h4 class="mb-0">Payment</h4>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
+            <div class="form-row">
+                    <div class="col">
+                        <label for="customer_id">Customer ID</label>
+                            <select type="number" name="customer_id" id="customer_id" class="form-control form-control-sm rounded-0">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
+                    </div>
+                    <div class="col">
+                        <label for="staff_id">Staff ID</label>
+                            <select type="number" name="staff_id" id="staff_id" class="form-control form-control-sm rounded-0">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
+                <br>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="rental_id">Rental ID</label>
+                            <select type="number" name="rental_id" id="rental_id" class="form-control form-control-sm rounded-0 ">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
+                    </div>
+                    <div class="col">
+                        <label for="payment_date">Payment Date</label>
+                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date" required="">
                     </div>
                 </div>
-                
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                <br>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" step="0.01" class="form-control form-control-sm rounded-0 col-sm-6" name="amount" id="amount" required="">
+                </div>
+                <div class="form-row">
                     <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                        <input type="reset" class="btn btn-secondary" value="Clear">
                         <input type="button" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>
