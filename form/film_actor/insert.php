@@ -70,19 +70,23 @@
     <div class="page-content-wrapper container" id ="database-table">
     <div class="card rounded-0">
         <div class="card-header">
-            <h3 class="mb-0">Actor</h3>
+            <h3 class="mb-0">Film & Actor</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                    <label for="uname1">First Name</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
-                    <div class="invalid-feedback">Oops, you missed this one.</div>
+                  <label >Actor ID</label>
+                  <select class="form-control form-control-lg" name="actor_id" id="actor_id">                   
+                    <option value="">1</option>
+                    <option value="">2</option>
+                  </select>
                 </div>
                 <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
-                    <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
+                  <label >Film ID</label>
+                  <select class="form-control form-control-lg" name="film_id" id="film_id">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                  </select>
                 </div>
                 
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
