@@ -37,6 +37,11 @@
       <i class="fas fa-sign-out-alt"></i> Log out
     </button>
 </nav>
+<style>
+.radio{
+    margin-left: 15px;
+}
+</style>
 </header>
 
 <div class="d-flex" id="wrapper">
@@ -71,27 +76,67 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h4 class="mb-0">Staff</h4>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
+            <div class="form-row">
+                    <div class="col">
+                        <label for="first_name">First Name</label>
+                        <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="">
+                    </div>
+                    <div class="col">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" class="form-control form-control-sm rounded-0" name="last_name" id="last_name" required="">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
+                <br>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control form-control-sm rounded-0" name="username" id="username" required="">
+                    </div>
+                    <div class="col">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control form-control-sm rounded-0" name="password" id="password" required="" autocomplete="new-password">
                     </div>
                 </div>
-                
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                <br>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control form-control-sm rounded-0 col-sm-6" name="email" id="email" required="">
+                </div>
+                <div class="form-group">
+                    <label for="picture">Insert Picture</label>
+                    <input type="file" class="form-control-file" name="picture" id="picture">
+                </div>
+                <div class="form-group">
+                    <label for="address_id">Address ID</label>
+                        <select type="text" name="address_id" id="address_id" class="form-control form-control-sm rounded-0 col-sm-6">
+                            <option value="">Kuala Lumpur</option>
+                            <option value="">Bandar Sunway</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="store_id">Store ID</label>
+                        <select type="number" name="store_id" id="store_id" class="form-control form-control-sm rounded-0 col-sm-6">
+                            <option value="">01234</option>
+                            <option value="">56789</option>
+                        </select>
+                </div>
+                <label for="active">Active</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="1" name="active" id="active">
+                    <label class="form-check-label" for="active">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="0" name="active" id="active">
+                    <label class="form-check-label" for="active">No</label>
+                </div>
+                <br>
+                <div class="form-row">
                     <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                        <input type="reset" class="btn btn-secondary" value="Clear">
                         <input type="button" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>

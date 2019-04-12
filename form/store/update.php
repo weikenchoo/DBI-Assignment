@@ -71,30 +71,24 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h4 class="mb-0">Store</h4>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Manager Staff ID</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
-                    </div>
+            <div class="form-group">
+                <label for="manager_staff_id">Manager Staff ID</label>
+                <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="">
+            </div>
+            <div class="form-group">
+                <label for="address_id">Address ID</label>
+                <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="">
+            </div>
+            <div class="form-row">
+                <div class="col-lg-9">
+                    <input type="reset" class="btn btn-secondary" value="Clear">
+                    <input type="button" class="btn btn-outline-dark" value="Save Changes">
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Address ID</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
-                    </div>
-                </div>
-                
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
-                    </div>
-                </div>
+            </div>
             </form>
         </div>
     </div>

@@ -59,8 +59,8 @@
     <a class="nav-link" href="update.php">Update</a>
     <a class="nav-link" href="#">Delete</a>
   </div>
-    
-    <button type="button" class="btn btn-default btn-sm">
+
+  <button type="button" class="btn btn-default btn-sm">
       <i class="fas fa-sign-out-alt"></i> Log out
     </button>
 </nav>
