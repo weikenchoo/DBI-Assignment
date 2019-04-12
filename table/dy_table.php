@@ -37,8 +37,6 @@
     <!-- Backend will change href to respective tables -->
     <?php 
       echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
-      echo '<a class="nav-link" href="../form/'.$table_name.'/update.php">Update</a>';
-      echo '<a class="nav-link" href="#">Delete</a>';
     ?>
   </div>
 
@@ -103,6 +101,7 @@
         foreach($fetch1 as $row) {
             echo '<th>'.$row['COLUMN_NAME'].'</th>';
         }
+        echo '<th>Action</th>';
         echo '</tr>';
 
         $data_query = "SELECT * FROM ".$table_name;
@@ -114,11 +113,21 @@
 
         for($i = 0; $i < $row_count; $i++) {
             echo '<tr>';
+            
+            
             for($j = 0; $j < $field_count; $j++) {
                 echo'<td>';
                 echo $fetch2[$i][$j];
                 echo '</td>';
             }
+            echo '<td>
+                  <div class="container">
+                  <div class="row">
+                  <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php"><i class="far fa-edit"></i>Update</a>
+                  <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                  </div>
+                  </div>
+                  ';
             echo '</tr>';
         }        
 

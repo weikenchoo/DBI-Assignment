@@ -57,8 +57,8 @@
 
   .scrollable{
     height:500px;
-    
-    
+    position: relative;
+    display: block;
     overflow : auto;
   }
   
@@ -75,6 +75,9 @@
 
 .navbar .nav-item .nav-link{
   color:white;
+}
+.navbar .nav-item :hover{
+  color: beige;
 }
 
 h1{
