@@ -119,7 +119,7 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Clear">
+                        <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=address'" >  
                         <input type="button" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>

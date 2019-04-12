@@ -74,8 +74,8 @@
               <label for="country">Country</label>
               <input type="text" class="form-control form-control-lg rounded-0" name="country" id="country" required="">
             </div>
-                
-                <button type="submit" class="btn btn-outline-dark " >Insert</button>
+                <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=country'" >  
+                <input type="button" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
       

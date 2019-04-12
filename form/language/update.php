@@ -77,7 +77,7 @@
             </div>
             <div class="form-row">
                 <div class="col-lg-9">
-                    <input type="reset" class="btn btn-secondary" value="Clear">
+                <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=language'" >
                     <input type="button" class="btn btn-outline-dark" value="Save Changes">
                 </div>
             </div>

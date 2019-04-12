@@ -65,36 +65,30 @@
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
-    <div class="card">
+    <div class="card rounded-0">
         <div class="card-header">
-        <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h3 class="mb-0">Film category</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
-                    </div>
-                </div>
-                
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
-                    </div>
-                </div>
+            <form class="form" role="form" id="formInsert"  method="POST">
+            <div class="form-group">
+              <label for="film_id">Film ID</label>
+              <select class="form-control form-control-lg" name="film_id" id="film_id">                   
+                <option value="">1</option>
+                <option value="">2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category_id">Category ID</label>
+              <select class="form-control form-control-lg" name="category_id" id="category_id">
+                <option value="">1</option>
+                <option value="">2</option>
+              </select>
+            </div>
+            <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=film_category'" >  
+            <input type="button" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
-    </div>
       
     
     

@@ -112,10 +112,9 @@
                       <label class="form-check-label" for="active">No</label>
                   </div>
                 </div>
-                  
+                <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=customer'" >  
+                <input type="button" class="btn btn-outline-dark" value="Save Changes"> 
                 
-                
-                <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
       
