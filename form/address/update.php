@@ -29,13 +29,11 @@
   </div>
   <div class="navbar nav-item" >
     <a class="nav-link" href="insert.php">Insert</a>
-    <a class="nav-link" href="update.php">Update</a>
-    <a class="nav-link" href="#">Delete</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=address">Update</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=address">Delete</a>
   </div>
     
-    <button type="button" class="btn btn-default btn-sm">
-      <i class="fas fa-sign-out-alt"></i> Log out
-    </button>
+    
 </nav>
 </header>
 
@@ -121,7 +119,7 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                        <input type="reset" class="btn btn-secondary" value="Clear">
                         <input type="button" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>

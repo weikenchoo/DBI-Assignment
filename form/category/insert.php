@@ -29,13 +29,9 @@
   </div>
   <div class="navbar nav-item" >
     <a class="nav-link" href="insert.php">Insert</a>
-    <a class="nav-link" href="update.php">Update</a>
-    <a class="nav-link" href="#">Delete</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=category">Update</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=category">Delete</a>
   </div>
-    
-    <button type="button" class="btn btn-default btn-sm">
-      <i class="fas fa-sign-out-alt"></i> Log out
-    </button>
 </nav>
 </header>
 

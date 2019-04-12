@@ -58,13 +58,10 @@
   </div>
   <div class="navbar nav-item" >
     <a class="nav-link" href="insert.php">Insert</a>
-    <a class="nav-link" href="update.php">Update</a>
-    <a class="nav-link" href="#">Delete</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=address">Update</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=address">Delete</a>
   </div>
     
-    <button type="button" class="btn btn-default btn-sm">
-      <i class="fas fa-sign-out-alt"></i> Log out
-    </button>
 </nav>
 </header>
 
@@ -163,7 +160,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-outline-dark btn-lg " >Insert</button>
+                <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
       <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>

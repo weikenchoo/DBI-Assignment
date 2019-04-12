@@ -29,13 +29,11 @@
   </div>
   <div class="navbar nav-item" >
     <a class="nav-link" href="insert.php">Insert</a>
-    <a class="nav-link" href="update.php">Update</a>
-    <a class="nav-link" href="#">Delete</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=city">Update</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=city">Delete</a>
   </div>
     
-    <button type="button" class="btn btn-default btn-sm">
-      <i class="fas fa-sign-out-alt"></i> Log out
-    </button>
+   
 </nav>
 </header>
 
@@ -68,36 +66,27 @@
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
-    <div class="card">
+    <div class="card rounded-0">
         <div class="card-header">
-        <!-- this is for table -->
-            <h4 class="mb-0">Actor</h4>
+            <h3 class="mb-0">City</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Jane">
-                    </div>
+            <form class="form" role="form" id="formInsert"  method="POST">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="">
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="Bishop">
-                    </div>
+                <div class="form-group">
+                  <label for="country_id">Country ID</label>
+                  <select class="form-control form-control-lg" name="country_id" id="country_id">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                  </select>
                 </div>
                 
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Cancel">
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
-    </div>
       
     
     
