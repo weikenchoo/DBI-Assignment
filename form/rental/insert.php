@@ -14,7 +14,6 @@
 		$customer_id = isset($_POST['customer_id'])?$_POST['customer_id']:"";
 		$return_date = isset($_POST['return_date'])?$_POST['return_date']:"";
 		$staff_id = isset($_POST['staff_id'])?$_POST['staff_id']:"";
-		echo $rental_date;
 		$sql = "INSERT INTO rental(rental_date,inventory_id,customer_id,return_date,staff_id) 
 					VALUES('$rental_date','$inventory_id','$customer_id','$return_date','$staff_id')";
 					
