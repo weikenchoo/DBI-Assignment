@@ -1,48 +1,61 @@
 <?php
     include "../../includes/database.php";
-	include "../../includes/check_login.php";
+    include "../../includes/check_login.php";
+    
     $conn = connect();
     $response = "";
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
 
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$title = isset($_POST['title'])?strtoupper($_POST['title']):""; 
-		$description = isset($_POST['description'])?$_POST['description']:"";
-		$release_year = isset($_POST['release_year'])?$_POST['release_year']:"";
-		$language_id = isset($_POST['language_id'])?$_POST['language_id']:"";
-		$original_language_id = isset($_POST['original_language_id'])?$_POST['original_language_id']:"";
-		$rental_duration = isset($_POST['rental_duration'])?$_POST['rental_duration']:"";
-		$rental_rate = isset($_POST['rental_rate'])?$_POST['rental_rate']:"";
-		$length = isset($_POST['length'])?$_POST['length']:"";
-		$replacement_cost = isset($_POST['replacement_cost'])?$_POST['replacement_cost']:"";
-		$rating = isset($_POST['rating'])?$_POST['rating']:"";
-		$special_features_array[] = $_POST['special_features_array'];//array to store multiple selections of special_features
-		
-	if(count($_POST['special_features_array'])>0){
-			$special_features = implode(",",$special_features_array[0]); //an array of arrays, so use $special_features_array[0]
-       }
-    
+    if(isset($_GET["id"])) {
+      $_SESSION['id'] = $_GET["id"];
+      $id = $_SESSION['id'];
+    }
 
-	$query1 = "INSERT INTO film(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) 
-				VALUES('$title', '$description', '$release_year', '$language_id', '$original_language_id', '$rental_duration', '$rental_rate', '$length', 
-				'$replacement_cost', '$rating', '$special_features')";
-					
-	if($language_id != 'NULL'){
-		$result = mysqli_query($conn, $query1);
-		if($result === TRUE){
-			$response = "Database updated successfully.";
-			$special_features = "";
-		}
-		else
-			$response = "Insert failed.";
-		}
-			
-		else{
-			$response = "No available language.";
-		}
-	}
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+      $check_query = "SELECT * FROM film WHERE film_id = ".$id;
+      $check_result = mysqli_query($conn, $check_query);
+      $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);  
+
+      $title = !empty($_POST['title'])?$_POST['title']:$fetch[0]['title'];
+      $description = !empty($_POST['description'])?$_POST['description']:$fetch[0]['description'];
+      $release_year = !empty($_POST['release_year'])?$_POST['release_year']:$fetch[0]['release_year'];
+      $language_id = !empty($_POST['language_id'])?$_POST['language_id']:$fetch[0]['language_id'];
+      $original_language_id = !empty($_POST['original_language_id'])?$_POST['original_language_id']:$fetch[0]['original_language_id'];
+      $rental_duration = !empty($_POST['rental_duration'])?$_POST['rental_duration']:$fetch[0]['rental_duration'];
+      $rental_rate = !empty($_POST['rental_rate'])?$_POST['rental_rate']:$fetch[0]['rental_rate'];
+      $length = !empty($_POST['length'])?$_POST['length']:$fetch[0]['length'];
+      $replacement_cost = !empty($_POST['replacement_cost'])?$_POST['replacement_cost']:$fetch[0]['replacement_cost'];
+      $rating = !empty($_POST['rating'])?$_POST['rating']:$fetch[0]['rating'];
+      $special_features_array[] = $_POST['special_features_array'];//array to store multiple selections of special_features
+      
+      if(count($_POST['special_features_array'])>0){
+          $special_features = implode(",",$special_features_array[0]); //an array of arrays, so use $special_features_array[0]
+        }
+      
+
+      $update_query = "UPDATE film SET title='".strtoupper($title)."', description='".$description."', release_year=".$release_year.", 
+                            language_id=".$language_id.", original_language_id=".$original_language_id.", rental_duration=".$rental_duration.",
+                            rental_rate=".$rental_rate.", length=".$length.", replacement_cost=".$replacement_cost.", rating='".$rating."',
+                            special_features='".$special_features."'
+                              WHERE film_id = ".$id;
+
+            
+      if($language_id != 'NULL'){
+        $result = mysqli_query($conn, $update_query);
+        if($result === TRUE){
+          $response = "Database updated successfully.";
+          $special_features = "";
+          header('Location: ../../table/dy_table.php?table_name=film');
+        }
+        else
+          $response = "Insert failed.";
+        } else{
+          $response = "No available language.";
+        }
+      }
 ?>
 
 
@@ -99,6 +112,11 @@
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
+
+    <?php 
+        $check_query2 = "SELECT * FROM film WHERE film_id =".$id;
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+    ?>
     
 
     <!-- Page Content -->
@@ -113,14 +131,14 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                       <label for="title">Title</label>
-                      <input type="text" class="form-control form-control-sm rounded-0" name="title" id="title" required="">
+                      <input type="text" class="form-control form-control-sm rounded-0" name="title" id="title" required="" value = "<?php echo $original_data[0]['title']; ?>">
                       
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                       <label for="release_year">Release year</label>
-                      <input type="text" class="form-control form-control-sm rounded-0" name="release_year" id="release_year" required="">
+                      <input type="text" class="form-control form-control-sm rounded-0" name="release_year" id="release_year" required="" value = "<?php echo $original_data[0]['release_year']; ?>">
                       
                   </div>
                 </div>
@@ -128,7 +146,7 @@
                 
               <div class="form-group">
                   <label for="description">Description</label>
-                  <textarea class="form-control form-control-sm rounded-0" name="description" id="" cols="10" rows="2" required=""></textarea>
+                  <textarea class="form-control form-control-sm rounded-0" name="description" id="" cols="10" rows="2" required=""><?php echo $original_data[0]['description']; ?></textarea>
                   
               </div>
               <div class="row">
@@ -136,17 +154,28 @@
                   <div class="form-group">
                       <label for="lang">Language</label>
 					  <?php
-                      echo "<select name='language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
-					  $query2 = "SELECT language_id, name FROM language";
-					  $language_search = mysqli_query($conn, $query2);
-					  if(mysqli_num_rows($language_search) > 0){
-						  while($row = mysqli_fetch_assoc($language_search)){
-							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
-						  }
-					  }
-					  else 
-						  echo "<option value = 'NULL'>" . "--NULL--" . "</option>"; 
-                      echo "</select>";
+                // echo "<select name='language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
+                $options_query = "SELECT language_id, name FROM language";
+                $language_search = mysqli_query($conn, $options_query);
+
+                // var_dump($options_query);
+                // var_dump($language_search);
+               
+                echo "<select name='language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
+                if(mysqli_num_rows($language_search) > 0){
+                  while($row = mysqli_fetch_assoc($language_search)){
+                    if($row['language_id'] == $original_data[0]['language_id']) {
+                      echo "<option value='" . $row['language_id'] . "' selected>" . $row['name'] . "</option>";
+
+                    } else {                  
+                        echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
+                      
+                    }
+                  }
+                } else {
+                  echo "<option value = 'NULL'>" . "--NULL--" . "</option>";    
+                }
+                echo "</select>";
 					  ?>
                   </div>
                 </div>
@@ -154,23 +183,40 @@
                   <div class="form-group">
                       <label for="ori">Original language</label>
 					  <?php
-                      echo "<select name='original_language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
-					  $query3 = "SELECT language_id, name FROM language";
-					  $language_search = mysqli_query($conn, $query3);
-					  if(mysqli_num_rows($language_search) > 0){
-						  while($row = mysqli_fetch_assoc($language_search)){
-							  echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
-						  }
-					  }
-					  echo "<option value = ''>" . "--NULL--" . "</option>";
-                      echo "</select>";
+              $options_query2 = "SELECT language_id, name FROM language";
+              $language_search = mysqli_query($conn, $options_query2);
+                            
+              echo "<select name='original_language_id' id='language' class='form-control form-control-sm' size='0' required=''>";
+              if(mysqli_num_rows($language_search) > 0){
+
+                if( is_null($original_data[0]['original_language_id'])) {
+                  echo "<option value = '' selected>" . "--NULL--" . "</option>";
+
+                  while($row = mysqli_fetch_assoc($language_search)) {                       
+                      echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";     
+                  }                 
+                } else {
+                    while($row = mysqli_fetch_assoc($language_search)){     
+            
+                      if($row['language_id'] == $original_data[0]['original_language_id'] ) {
+                        echo "<option value='" . $row['language_id'] . "' selected>" . $row['name'] . "</option>";
+
+                      } else {
+                        echo "<option value='" . $row['language_id'] . "'>" . $row['name'] . "</option>";
+
+                      }
+                    }
+                    echo "<option value = NULL>" . "--NULL--" . "</option>";
+                }
+              }
+              echo "</select>"; 
 					  ?>
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
                       <label for="rental_duration">Rental duration</label>
-                      <input type="number" class="form-control form-control-sm " name="rental_duration" id="rental_duration" required="" >
+                      <input type="number" class="form-control form-control-sm " name="rental_duration" id="rental_duration" required="" value = "<?php echo $original_data[0]['rental_duration']; ?>">
                       
                   </div>
                 </div>
@@ -179,21 +225,21 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="length">Length</label>
-                        <input type="number" class="form-control form-control-sm " name="length" id="length" required="" >
+                        <input type="number" class="form-control form-control-sm " name="length" id="length" required="" value = "<?php echo $original_data[0]['length']; ?>">
                         
                     </div>
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
                         <label for="replacement_cost">Replacement cost</label>
-                        <input type="number" class="form-control form-control-sm " name="replacement_cost" id="replacement_cost" step ="0.01" required="" >
+                        <input type="number" class="form-control form-control-sm " name="replacement_cost" id="replacement_cost" step ="0.01" required="" value = "<?php echo $original_data[0]['replacement_cost']; ?>">
                         
                     </div>
                   </div>
                 <div class="col-sm-4">
                   <div class="form-group">
                       <label for="rental_rate">Rental rate</label>
-                      <input type="number" class="form-control form-control-sm rounded-0" name="rental_rate" id="rental_rate" step ="0.01" required="">
+                      <input type="number" class="form-control form-control-sm rounded-0" name="rental_rate" id="rental_rate" step ="0.01" required="" value = "<?php echo $original_data[0]['rental_rate']; ?>">
                   </div>
                 </div>
               </div>
@@ -201,12 +247,17 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                       <label for="rating">Rating</label>
-                      <select name="rating" id="rating" class="form-control form-control-sm" required="">
-                        <option value="G">G</option>
-                        <option value="R">R</option>
-                        <option value="PG">PG</option>
-                        <option value="PG-13">PG-13</option>
-                        <option value="NC-17">NC-17</option>
+                      <select name="rating" id="rating" class="form-control form-control-sm" required="" >
+                        <?php
+                           $arr_rating = array("G", "R", "PG", "PG-13", "NC-17");
+                           for($index = 0; $index < count($arr_rating); $index++){
+                              if(!strcmp($arr_rating[$index], $original_data[0]['rating'])) {
+                                echo '<option value=' . $arr_rating[$index] . ' selected>' .  $arr_rating[$index] . '</option>';
+                              } else {
+                                  echo '<option value=' . $arr_rating[$index] . '>' .  $arr_rating[$index] . '</option>';
+                              }
+                           }
+                        ?>
                       </select>
                   </div>
                 </div>
@@ -214,7 +265,8 @@
               <div class="row">
               <div class="col-sm-6">
                   <div class="form-group">
-                      <label for="special_features">Special features</label>
+                      <!-- TODO: format the caption -->
+                      <label for="special_features">Special features (Ctrl+click for multi select)</label>
                       <select multiple name="special_features_array[]" id="special_features" class="form-control form-control-sm" required="">
                         <option value="Behind the scenes">Behind the scenes</option>
                         <option value="Trailers">Trailers</option>
@@ -226,7 +278,7 @@
               </div>
               
               <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=film'" >  
-              <input type="button" class="btn btn-outline-dark" value="Save Changes">
+              <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
       
@@ -237,3 +289,7 @@
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>
