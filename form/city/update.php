@@ -1,9 +1,48 @@
 <?php
     include "../../includes/database.php";
+    session_start();
     $conn = connect();
+    
+    $response ="";
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM city WHERE city_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $city = !empty($_POST['city'])?$_POST['city']:$fetch[0]['city'];
+        $country_id = !empty($_POST['country_id'])?$_POST['country_id']:$fetch[0]['country_id'];
+
+        $update_query = "UPDATE city SET city='".$city."', country_id=".$country_id." 
+                            WHERE city_id = ".$id;
+
+
+        if($country_id != 'NULL'){
+            $result = mysqli_query($conn, $update_query);
+			      if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=city');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+			$response = "No available countries.";
+      } 
     }
 ?>
 
@@ -65,6 +104,12 @@
     
 
     <!-- Page Content -->
+
+    <?php 
+        $check_query2 = "SELECT city, country_id FROM city WHERE city_id =".$id;
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);    
+    ?>
+
     <div class="page-content-wrapper container" id ="database-table">
     <div class="card rounded-0">
         <div class="card-header">
@@ -74,18 +119,32 @@
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
                     <label for="city">City</label>
-                    <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="">
+                    <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="" value = "<?php echo $original_data[0]['city']; ?>">
                 </div>
                 <div class="form-group">
                   <label for="country_id">Country ID</label>
-                  <select class="form-control form-control-lg" name="country_id" id="country_id">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                    <?php
+                    $options_query = "SELECT country_id, country FROM country ORDER BY country";
+                    $country_search = mysqli_query($conn, $options_query);
+            
+                              echo "<select id='country' class='form-control' size='0' name='country_id'>";
+                              if(mysqli_num_rows($country_search) > 0){
+                                  while($row = mysqli_fetch_assoc($country_search)) {
+                                      if($row['country_id'] == $original_data[0]['country_id']) {
+                                          echo "<option value='" . $row['country_id'] . "' selected>" . $row['country'] . "</option>";
+                                      } else {
+                                          echo "<option value='" . $row['country_id'] . "'>" . $row['country'] . "</option>";
+                                      }                                    
+                                  }
+                              }
+                              else 
+                                  echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                      echo "</select>";
+                      ?>
                 </div>
                 
                 <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=city'" >  
-                <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
       
@@ -96,3 +155,7 @@
 </div>
 </body>
 </html>
+
+<?php 
+  mysqli_close($conn);
+?>

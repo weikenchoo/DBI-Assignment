@@ -35,8 +35,6 @@
         $update_query = "UPDATE payment SET customer_id=".$customer_id.", staff_id=".$staff_id.", rental_id=".$rental_id.", amount=".$amount."
                             WHERE payment_id = ".$id;
 
-        var_dump($update_query);
-
         if($customer_id != 'NULL'){
             $result = mysqli_query($conn, $update_query);
             var_dump($result);
@@ -173,17 +171,7 @@
 					        $options_query3 = "SELECT r.rental_id FROM rental r
                                                 WHERE NOT EXISTS(SELECT p.rental_id FROM payment p WHERE r.rental_id = p.rental_id) 
                                                 ORDER BY r.rental_date";
-                            $rental_search = mysqli_query($conn, $options_query3);
-
-                            // SELECT r.rental_id FROM rental r WHERE NOT EXISTS(SELECT p.rental_id FROM payment p WHERE r.rental_id = p.rental_id) AND 
-                            //      EXISTS(SELECT pp.rental_id FROM payment pp WHERE pp.rental_id = 1)
-                            //      ORDER BY r.rental_date
-
-                            // $sql2 = "SELECT a.address_id, a.address FROM address a 
-                            //         WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
-                            //         NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
-                            //         NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
-                            //         ORDER BY a.address";                            
+                            $rental_search = mysqli_query($conn, $options_query3);                         
 					
                             echo "<select id='rental' class='form-control' size='0' name='rental_id'>";
                             echo "<option value='" . $original_data[0]['rental_id'] . "' selected>" . $original_data[0]['rental_id'] . "</option>";
@@ -215,6 +203,7 @@
                 </div>
             </form>
         </div>
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
     
@@ -224,3 +213,7 @@
 </div>
 </body>
 </html>
+
+<?php
+mysqli_close($conn);
+?>

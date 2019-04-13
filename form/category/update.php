@@ -1,10 +1,51 @@
 <?php
     include "../../includes/database.php";
     $conn = connect();
+
+    session_start();
+
+    $conn = connect();
+
+    $response = "";
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM category WHERE category_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $name = !empty($_POST['name'])?$_POST['name']:$fetch[0]['name'];
+
+        $update_query = "UPDATE category SET name='".$name."'
+                            WHERE category_id = ".$id;
+
+        var_dump($update_query);
+
+        $result = mysqli_query($conn, $update_query);
+        var_dump($result);
+        if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=category');
+            } else {
+                $response = "Insert failed.";
+            }
+      
+		}
+    
 ?>
 
 
@@ -68,21 +109,28 @@
         <div class="card-header">
             <h3 class="mb-0">Category</h3>
         </div>
+        <?php 
+          $check_query2 = "SELECT name FROM category WHERE category_id =".$id;
+          $original_name = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+        
+        ?>
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control form-control-lg rounded-0" name="name" id="name" required="">
+                  <input type="text" class="form-control form-control-lg rounded-0" name="name" id="name" required="" value = "<?php echo $original_name[0]['name']; ?>">
                 </div>
                 <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=category'" >  
-                <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
-      
-    
-    
+      <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>    
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>
