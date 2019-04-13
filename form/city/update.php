@@ -123,7 +123,7 @@
                     $options_query = "SELECT country_id, country FROM country ORDER BY country";
                     $country_search = mysqli_query($conn, $options_query);
             
-                              echo "<select id='country' class='form-control' size='0' name='country_id'>";
+                              echo "<select id='country' class='form-control form-control-lg' size='0' name='country_id'>";
                               if(mysqli_num_rows($country_search) > 0){
                                   while($row = mysqli_fetch_assoc($country_search)) {
                                       if($row['country_id'] == $original_data[0]['country_id']) {

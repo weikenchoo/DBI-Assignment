@@ -104,8 +104,7 @@
     <!-- /#sidebar-wrapper -->
 
     <?php 
-        // TODO: join table with address tables to get the address name
-        $check_query2 = "SELECT first_name, last_name, email, address_id, active FROM customer WHERE customer_id =".$id;
+        $check_query2 = "SELECT customer.*, address.address FROM customer INNER JOIN address ON customer.address_id = address.address_id WHERE customer.customer_id =".$id;
         $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
     ?>
     
@@ -159,7 +158,7 @@
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="addres_id">Address</label>
+                      <label for="addres_id">Address ID</label>
                         <?php
                             // query all address that are not used by customer, store, and staff
                             $options_query2 = "SELECT a.address_id, a.address FROM address a
@@ -167,13 +166,13 @@
                                                 NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
                                                 NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
                                                 ORDER BY a.address";
-                            $address_search = mysqli_query($conn, $options_query2);                     
-                            // TODO: show address name instead of address ID
+                            $address_search = mysqli_query($conn, $options_query2);      
+
                             echo "<select id='address' class= 'form-control form-control-sm' name='address_id'>";
-                            echo "<option value='" . $original_data[0]['address_id'] . "' selected>" . $original_data[0]['address_id'] . "</option>";
+                            echo "<option value='" . $original_data[0]['address_id'] . "' selected>(" . $original_data[0]['address_id'] . "). " . $original_data[0]['address'] . "</option>";
                             if(mysqli_num_rows($address_search) > 0){
                                 while($row = mysqli_fetch_assoc($address_search)) {
-                                  echo "<option value='" . $row['address_id'] . "'>" . $row['address_id'] . "</option>";                                                   
+                                  echo "<option value='" . $row['address_id'] . "' >(" . $row['address_id'] . "). " . $row['address'] . "</option>";
                                 }
                             }
                             else 

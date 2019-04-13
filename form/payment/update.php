@@ -33,7 +33,6 @@
 
         if($customer_id != 'NULL'){
             $result = mysqli_query($conn, $update_query);
-            var_dump($result);
 			if($result) {
                 $response = "Database updated successfully.";
                 unset($_SESSION['id']);
@@ -108,7 +107,7 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Payment</h4>
+            <h3 class="mb-0">Payment</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off" method ="POST">
@@ -190,7 +189,7 @@
             <br>
             <div class="form-group">
                 <label for="amount">Amount</label>
-                <input type="number" step="0.01" class="form-control form-control-sm rounded-0 col-sm-6" name="amount" value = "<?php echo  $original_data[0]['amount']?>" id="amount" required="">
+                <input type="number" step="0.01" class="form-control col-sm-6" name="amount" value = "<?php echo  $original_data[0]['amount']?>" id="amount" required="">
             </div>
             <div class="form-row">
                 <div class="col-lg-9">

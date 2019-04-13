@@ -4,6 +4,7 @@
     $conn = connect();
     
     $response = "";
+
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
@@ -97,7 +98,6 @@
 
     <?php 
         $check_query2 = "SELECT store.*, address.address FROM store INNER JOIN address ON store.address_id = address.address_id WHERE store_id =".$id;
-        // $check_query2 = "SELECT film_category.*, film.title FROM film_category INNER JOIN film ON film_category.film_id = film.film_id WHERE film_category.film_id =".$id1." AND  film_category.category_id=".$id2 ; 
         $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
     ?>
     
@@ -107,7 +107,7 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Store</h4>
+            <h3 class="mb-0">Store</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off" method = "POST">
@@ -119,13 +119,13 @@
                     <label for="addres_id">Address ID</label>
                     <?php
                         // query all address that are not used by customer, store, and staff
-                        $options_query2 = "SELECT a.address_id, a.address FROM address a
+                        $options_query = "SELECT a.address_id, a.address FROM address a
                                             WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
                                             NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
                                             NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
                                             ORDER BY a.address";
-                        $address_search = mysqli_query($conn, $options_query2);                     
-                        // TODO: show address name instead of address ID
+                        $address_search = mysqli_query($conn, $options_query);    
+
                         echo "<select id='address' class= 'form-control form-control-lg rounded-0' name='address_id'>";
                         echo "<option value='" . $original_data[0]['address_id'] . "' selected>(" . $original_data[0]['address_id'] . "). " . $original_data[0]['address'] . "</option>";
                         if(mysqli_num_rows($address_search) > 0){

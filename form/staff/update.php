@@ -1,10 +1,56 @@
 <?php
     include "../../includes/database.php";
+    include "../../includes/check_login.php";
     $conn = connect();
+
+    $response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+    
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM staff WHERE staff_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $f_name = !empty($_POST['first_name'])?$_POST['first_name']:$fetch[0]['first_name'];
+        $l_name = !empty($_POST['last_name'])?$_POST['last_name']:$fetch[0]['last_name'];
+        $username = !empty($_POST['username'])?$_POST['username']:$fetch[0]['username'];
+        $password = !empty($_POST['password'])?$_POST['password']:$fetch[0]['password'];
+        $email = !empty($_POST['email'])?$_POST['email']:$fetch[0]['email'];
+
+        // TODO: add image
+
+        $address_id = !empty($_POST['address_id'])?$_POST['address_id']:$fetch[0]['address_id'];
+        $store_id = !empty($_POST['store_id'])?$_POST['store_id']:$fetch[0]['store_id'];
+        $active = $_POST['active'];
+
+        $update_query = "UPDATE staff SET first_name='".$f_name."', last_name='".$l_name."', username='".$username."', password='".$password."',
+                            email='".$email."', address_id=" . $address_id . ", store_id=" . $store_id . ", active =".$active."
+                            WHERE staff_id = ".$id;
+        
+
+        if($address_id != 'NULL' && $store_id != 'NULL' && $password!= 'NULL'){
+            $result = mysqli_query($conn, $update_query);            
+			if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=staff');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+			$response = "Missing fields!";
+		}
+    }
+
 ?>
 
 
@@ -65,7 +111,11 @@
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
-    
+
+    <?php 
+        $check_query2 = "SELECT staff.*, address.address FROM staff INNER JOIN address ON staff.address_id = address.address_id WHERE staff_id =".$id;
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+    ?>
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
@@ -75,32 +125,32 @@
             <h4 class="mb-0">Staff</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form class="form" role="form" autocomplete="off" method = "POST">
             <div class="form-row">
                     <div class="col">
                         <label for="first_name">First Name</label>
-                        <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="">
+                        <input type="text" class="form-control form-control-sm rounded-0" name="first_name" id="first_name" required="" value = "<?php echo $original_data[0]['first_name']; ?>">
                     </div>
                     <div class="col">
                         <label for="last_name">Last Name</label>
-                        <input type="text" class="form-control form-control-sm rounded-0" name="last_name" id="last_name" required="">
+                        <input type="text" class="form-control form-control-sm rounded-0" name="last_name" id="last_name" required="" value = "<?php echo $original_data[0]['last_name']; ?>">
                     </div>
                 </div>
                 <br>
                 <div class="form-row">
                     <div class="col">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control form-control-sm rounded-0" name="username" id="username" required="">
+                        <input type="text" class="form-control form-control-sm rounded-0" name="username" id="username" required="" value = "<?php echo $original_data[0]['username']; ?>">
                     </div>
                     <div class="col">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control form-control-sm rounded-0" name="password" id="password" required="" autocomplete="new-password">
+                        <input type="password" class="form-control form-control-sm rounded-0" name="password" id="password" required="" autocomplete="new-password" value = "<?php echo $original_data[0]['password']; ?>">
                     </div>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control form-control-sm rounded-0 col-sm-6" name="email" id="email" required="">
+                    <input type="email" class="form-control form-control-sm rounded-0 col-sm-6" name="email" id="email" required="" value = "<?php echo $original_data[0]['email']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="picture">Insert Picture</label>
@@ -108,36 +158,78 @@
                 </div>
                 <div class="form-group">
                     <label for="address_id">Address ID</label>
-                        <select type="text" name="address_id" id="address_id" class="form-control form-control-sm rounded-0 col-sm-6">
-                            <option value="">Kuala Lumpur</option>
-                            <option value="">Bandar Sunway</option>
-                        </select>
+                    <?php
+                        // query all address that are not used by customer, store, and staff
+                        $options_query = "SELECT a.address_id, a.address FROM address a
+                                            WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
+                                            NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
+                                            NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
+                                            ORDER BY a.address";
+                        $address_search = mysqli_query($conn, $options_query);    
+
+                        echo "<select id='address' class= 'form-control form-control-sm rounded-0 col-sm-6' name='address_id'>";
+                        echo "<option value='" . $original_data[0]['address_id'] . "' selected>(" . $original_data[0]['address_id'] . "). " . $original_data[0]['address'] . "</option>";
+                        if(mysqli_num_rows($address_search) > 0){
+                            while($row = mysqli_fetch_assoc($address_search)) {
+                                echo "<option value='" . $row['address_id'] . "'>(" . $row['address_id'] . "). "  .$row['address']. "</option>";                                                   
+                            }
+                        }
+                        else 
+                            echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                echo "</select>";
+                ?>
                 </div>
                 <div class="form-group">
                     <label for="store_id">Store ID</label>
-                        <select type="number" name="store_id" id="store_id" class="form-control form-control-sm rounded-0 col-sm-6">
-                            <option value="">01234</option>
-                            <option value="">56789</option>
-                        </select>
+                      <?php
+                        $options_query2 = "SELECT s.store_id FROM store s
+                                            WHERE NOT EXISTS(SELECT ss.store_id FROM staff ss WHERE s.store_id = ss.store_id)";                                              
+                        $store_search = mysqli_query($conn, $options_query2);    
+
+                        echo "<select id='store' class= 'form-control form-control-sm rounded-0 col-sm-6' name='store_id'>";
+                        echo "<option value='" . $original_data[0]['store_id'] . "' selected>" . $original_data[0]['store_id'] . "</option>";
+                        if(mysqli_num_rows($store_search) > 0){
+                            while($row = mysqli_fetch_assoc($store_search)) {
+                                echo "<option value='" . $row['store_id'] . "'>" . $row['store_id'] . "</option>";                                                   
+                            }
+                        }
+                        else 
+                            echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                echo "</select>";
+                ?>
                 </div>
                 <label for="active">Active</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" name="active" id="active">
-                    <label class="form-check-label" for="active">Yes</label>
+                     <?php 
+                            if($original_data[0]['active'] == 1) {
+                            echo '<input class="form-check-input" type="radio" value="1" name="active" id="active" checked="checked">';
+                            } else {
+                            echo '<input class="form-check-input" type="radio" value="1" name="active" id="active">';
+                                }
+                            echo '<label class="form-check-label" for="active" >Yes</label>';
+                  ?>
+                
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="0" name="active" id="active">
-                    <label class="form-check-label" for="active">No</label>
+                      <?php 
+                      if($original_data[0]['active'] == 0) {
+                          echo '<input class="form-check-input" type="radio" value="0" name="active" id="not_active" checked="checked">';
+                        } else {
+                          echo '<input class="form-check-input" type="radio" value="0" name="active" id="not_active">';
+                      }
+                      echo '<label class="form-check-label" for="not_active" >No</label>';
+                      ?>
                 </div>
                 <br>
                 <div class="form-row">
                     <div class="col-lg-9">
                         <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=staff'" >
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                        <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>
             </form>
         </div>
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
     
@@ -147,3 +239,7 @@
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>

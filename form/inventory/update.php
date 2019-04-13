@@ -98,7 +98,7 @@
     <div class="card">
         <div class="card-header">
         <!-- this is for table -->
-            <h4 class="mb-0">Inventory</h4>
+            <h3 class="mb-0">Inventory</h3>
         </div>
         <div class="card-body">
             <form class="form" role="form" autocomplete="off" method = "POST">
