@@ -1,10 +1,61 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$rental_date = isset($_POST['rental_date'])?$_POST['rental_date']:""; 
+		$inventory_id = isset($_POST['inventory_id'])?$_POST['inventory_id']:"";
+		$customer_id = isset($_POST['customer_id'])?$_POST['customer_id']:"";
+		$return_date = isset($_POST['return_date'])?$_POST['return_date']:"";
+		$staff_id = isset($_POST['staff_id'])?$_POST['staff_id']:"";
+		echo $rental_date;
+		$sql = "INSERT INTO rental(rental_date,inventory_id,customer_id,return_date,staff_id) 
+					VALUES('$rental_date','$inventory_id','$customer_id','$return_date','$staff_id')";
+					
+	if($inventory_id != 'NULL' && $customer_id != 'NULL' && $staff_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+	
+	else if($inventory_id == 'NULL' && $customer_id != 'NULL' && $staff_id != 'NULL'){
+		$response = "No available inventory.";
+	}
+
+	else if($inventory_id != 'NULL' && $customer_id == 'NULL' && $staff_id != 'NULL'){
+		$response = "No available customer.";
+	}
+	
+	else if($inventory_id != 'NULL' && $customer_id != 'NULL' && $staff_id == 'NULL'){
+		$response = "No available staff.";
+	}
+	
+	else if($inventory_id == 'NULL' && $customer_id == 'NULL' && $staff_id != 'NULL'){
+		$response = "No available inventory and customer.";
+	}
+	
+	else if($inventory_id == 'NULL' && $customer_id != 'NULL' && $staff_id == 'NULL'){
+		$response = "No available inventory and staff.";
+	}
+	
+	else if($inventory_id != 'NULL' && $customer_id == 'NULL' && $staff_id == 'NULL'){
+		$response = "No available customer and staff.";
+	}
+	
+	else if($inventory_id == 'NULL' && $customer_id == 'NULL' && $staff_id == 'NULL'){
+		$response = "No available inventory, customer and staff.";
+	}
+
+}
+
 ?>
 
 
@@ -73,17 +124,37 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="inventory_id">Inventory ID</label>
-                            <select type="number" name="inventory_id" id="inventory_id" class="form-control form-control-sm rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+						<?php
+                            echo "<select type='number' name='inventory_id' id='inventory_id' class='form-control form-control-sm rounded-0'>";
+							$sql2 = "SELECT inventory_id FROM inventory ORDER BY inventory_id";
+							$inventory_search = mysqli_query($conn,$sql2);
+							if(mysqli_num_rows($inventory_search) > 0){
+								while($row = mysqli_fetch_assoc($inventory_search)){
+									echo "<option value='" . $row['inventory_id'] . "'>" . $row['inventory_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
                     <div class="col">
                         <label for="customer_id">Customer ID</label>
-                            <select type="number" name="customer_id" id="customer_id" class="form-control form-control-sm rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+						<?php
+                            echo "<select type='number' name='customer_id' id='customer_id' class='form-control form-control-sm rounded-0'>";
+							$sql3 = "SELECT customer_id FROM customer ORDER BY customer_id";
+							$customer_search = mysqli_query($conn,$sql3);
+							if(mysqli_num_rows($customer_search) > 0){
+								while($row = mysqli_fetch_assoc($customer_search)){
+									echo "<option value='" . $row['customer_id'] . "'>" . $row['customer_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
                 </div>
                 <br>
@@ -100,19 +171,37 @@
                 <br>
                 <div class="form-group">
                     <label for="staff_id">Staff ID</label>
-                        <select type="number" name="staff_id" id="staff_id" class="form-control form-control-sm rounded-0">
-                            <option value="">01234</option>
-                            <option value="">56789</option>
-                        </select>
+					<?php
+                        echo "<select type='number' name='staff_id' id='staff_id' class='form-control form-control-sm rounded-0'>";
+							$sql4 = "SELECT staff_id FROM staff ORDER BY staff_id";
+							$staff_search = mysqli_query($conn,$sql4);
+							if(mysqli_num_rows($staff_search) > 0){
+								while($row = mysqli_fetch_assoc($staff_search)){
+									echo "<option value='" . $row['staff_id'] . "'>" . $row['staff_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                 </div>
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
