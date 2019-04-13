@@ -104,7 +104,7 @@
                   echo "<select class='form-control form-control-lg' name='country_id' id='country_id'>";
 				  $sql2 = "SELECT country_id, country FROM country ORDER BY country";
 				  $country_search = mysqli_query($conn, $sql2);
-				  if(mysqli_num_rows($country_search > 0)){
+				  if(mysqli_num_rows($country_search)>0){
 					  while($row = mysqli_fetch_assoc($country_search)){
 							echo "<option value='" . $row['country_id'] . "'>" . $row['country'] . "</option>";
 					  }
@@ -127,3 +127,10 @@
 </div>
 </body>
 </html>
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
