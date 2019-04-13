@@ -1,10 +1,48 @@
 <?php
     include "../../includes/database.php";
+    include "../../includes/check_login.php";
     $conn = connect();
+
+    $response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+
+    if(isset($_GET["id1"])) {
+        $_SESSION['id1'] = $_GET["id1"];
+        $_SESSION['id2'] = $_GET['id2'];
+        $id1 = $_SESSION['id1'];
+        $id2 = $_SESSION['id2'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM film_actor WHERE actor_id =".$id1." AND film_id=".$id2;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $actor_id = !empty($_POST['actor_id'])?$_POST['actor_id']:$fetch[0]['actor_id'];
+        $film_id = !empty($_POST['film_id'])?$_POST['film_id']:$fetch[0]['film_id'];       
+
+        $update_query = "UPDATE film_actor SET actor_id = ".$actor_id.", film_id=".$film_id."
+                            WHERE actor_id =".$id1." AND film_id=".$id2;
+
+        if($actor_id != 'NULL' || $film_id != 'NULL'){
+            $result = mysqli_query($conn, $update_query);
+
+            if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id1']);
+                unset($_SESSION['id2']);
+                header('Location: ../../table/dy_table.php?table_name=film_actor');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+            $response = "No available films or actors.";
+        } 
+    }    
 ?>
 
 
@@ -61,6 +99,16 @@
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
+
+    <?php 
+          $check_query2 = "SELECT film_actor.*, film.title 
+                            FROM film_actor 
+                            INNER JOIN film 
+                            ON film_actor.film_id = film.film_id 
+                            WHERE film_actor.actor_id =".$id1." AND 
+                            film_actor.film_id=".$id2; 
+          $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+    ?>
     
 
     <!-- Page Content -->
@@ -73,27 +121,57 @@
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
                   <label for="actor_id">Actor ID</label>
-                  <select class="form-control form-control-lg" name="actor_id" id="actor_id">                   
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                        <?php
+                            $options_query = "SELECT actor_id, first_name, last_name FROM actor";
+                            $actor_search = mysqli_query($conn, $options_query);                            
+          
+                            echo "<select id='actor' class='form-control form-control-lg' name='actor_id'>";
+                            if(mysqli_num_rows($actor_search) > 0){
+                                while($row = mysqli_fetch_assoc($actor_search)) {
+                                  if($row['actor_id'] == $original_data[0]['actor']) {
+                                    echo "<option value='" . $row['actor_id'] . "' selected>" . $row['actor_id'] . ". " . $row['first_name']  .  $row['last_name']  .  "</option>";                                                                  
+                                  } else {
+                                    echo "<option value='" . $row['actor_id'] . "'>" . $row['actor_id'] . ". " . $row['first_name']  .  $row['last_name']  .  "</option>";                                                                  
+                                  }                                                                
+                                }
+                            }
+                            else 
+                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                    echo "</select>";
+					              ?>
                 </div>
                 <div class="form-group">
                   <label for="film_id">Film ID</label>
-                  <select class="form-control form-control-lg" name="film_id" id="film_id">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                        <?php
+                            $options_query2 = "SELECT f.film_id, FROM film f
+                                              WHERE NOT EXISTS(SELECT fa.film_id FROM film_actor fa WHERE f.film_id = fa.film_id)";
+                            $film_search = mysqli_query($conn, $options_query2);
+					
+                            echo "<select id='film' class='form-control form-control-lg' name='film_id'>";
+                            echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " .  $original_data[0]['title'] . "</option>";
+
+                            if(mysqli_num_rows($film_search) > 0){
+                                while($row = mysqli_fetch_assoc($film_search)) {
+                                  echo "<option value='" . $row['film_id'] . "'>" . $row['film_id'] . ". " . $row['title'] . "</option>";                                 
+                                }
+                            }
+                            else 
+                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                    echo "</select>";
+					?>
                 </div>
                 <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=film_actor'" >  
-                <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
-      
-    
-    
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
+              
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>

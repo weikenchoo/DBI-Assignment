@@ -1,10 +1,48 @@
 <?php
     include "../../includes/database.php";
+    include "../../includes/check_login.php";
     $conn = connect();
     
+    $response = "";
+
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+
+    if(isset($_GET["id1"])) {
+        $_SESSION['id1'] = $_GET["id1"];
+        $_SESSION['id2'] = $_GET['id2'];
+        $id1 = $_SESSION['id1'];
+        $id2 = $_SESSION['id2'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM film_category WHERE film_id =".$id1." AND category_id=".$id2;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+        
+        $film_id = !empty($_POST['film_id'])?$_POST['film_id']:$fetch[0]['film_id'];       
+        $category_id = !empty($_POST['category_id'])?$_POST['category_id']:$fetch[0]['category_id'];
+
+        $update_query = "UPDATE film_category SET film_id = ".$film_id.", category_id=".$category_id."
+                            WHERE film_id =".$id1." AND category_id=".$id2;
+
+        if($category_id != 'NULL' || $film_id != 'NULL'){
+            $result = mysqli_query($conn, $update_query);
+
+            if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id1']);
+                unset($_SESSION['id2']);
+                header('Location: ../../table/dy_table.php?table_name=film_category');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+            $response = "No available films or categories.";
+        } 
+    }  
 ?>
 
 
@@ -62,6 +100,11 @@
     </div>
     <!-- /#sidebar-wrapper -->
     
+    <?php 
+        $check_query2 = "SELECT film_category.*, film.title FROM film_category INNER JOIN film ON film_category.film_id = film.film_id WHERE film_category.film_id =".$id1." AND  film_category.category_id=".$id2 ; 
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+    ?>
+
 
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
@@ -73,22 +116,49 @@
             <form class="form" role="form" id="formInsert"  method="POST">
             <div class="form-group">
               <label for="film_id">Film ID</label>
-              <select class="form-control form-control-lg" name="film_id" id="film_id">                   
-                <option value="">1</option>
-                <option value="">2</option>
-              </select>
+                <?php
+                    $options_query = "SELECT f.film_id, f.title FROM film f
+                                      WHERE NOT EXISTS(SELECT fc.film_id FROM film_category fc WHERE f.film_id = fc.film_id)";
+                    $film_search = mysqli_query($conn, $options_query);                            
+  
+                    echo "<select id='film' class='form-control form-control-lg' name='film_id'>";
+                    echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " . $original_data[0]['title'] . "</option>";
+                    if(mysqli_num_rows($film_search) > 0){
+                        while($row = mysqli_fetch_assoc($film_search)) {
+                                echo "<option value='" . $row['film_id'] . "'>" . $row['film_id'] . ". " . $row['title'] . "</option>";                                                                  
+                        }
+                    }
+                    else 
+                        echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                            echo "</select>";
+                ?>
             </div>
             <div class="form-group">
               <label for="category_id">Category ID</label>
-              <select class="form-control form-control-lg" name="category_id" id="category_id">
-                <option value="">1</option>
-                <option value="">2</option>
-              </select>
+                <?php
+                    $options_query2 = "SELECT category_id, name FROM category";
+                    $category_search = mysqli_query($conn, $options_query2);                            
+  
+                    echo "<select id='category' class='form-control form-control-lg' name='category_id'>";
+                    if(mysqli_num_rows($category_search) > 0){
+                        while($row = mysqli_fetch_assoc($category_search)) {
+                          if($row['category_id'] == $original_data[0]['category_id']) {
+                              echo "<option value='" . $row['category_id'] . "' selected>" . $row['category_id'] . ". " . $row['name']. "</option>";
+                          } else {
+                              echo "<option value='" . $row['category_id'] . "'>" . $row['category_id']  . ". " . $row['name']. "</option>";                                                                  
+                          }
+                        }
+                    }
+                    else 
+                        echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                            echo "</select>";
+                ?>
             </div>
             <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=film_category'" >  
-            <input type="button" class="btn btn-outline-dark" value="Save Changes">
+            <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
       
     
     
@@ -97,3 +167,7 @@
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>

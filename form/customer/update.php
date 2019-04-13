@@ -104,6 +104,7 @@
     <!-- /#sidebar-wrapper -->
 
     <?php 
+        // TODO: join table with address tables to get the address name
         $check_query2 = "SELECT first_name, last_name, email, address_id, active FROM customer WHERE customer_id =".$id;
         $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
     ?>
@@ -140,7 +141,7 @@
                             $options_query = "SELECT store_id FROM store";
 					                  $store_search = mysqli_query($conn, $options_query);
 					
-                            echo "<select id='store' class='form-control' size='0' name='store_id'>";
+                            echo "<select id='store' class='form-control form-control-sm' name='store_id'>";
                             if(mysqli_num_rows($store_search) > 0){
                                 while($row = mysqli_fetch_assoc($store_search)) {
                                     if($row['store_id'] == $original_data[0]['store_id']) {
@@ -158,17 +159,17 @@
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label fo="addres_id">Address ID</label>
+                      <label for="addres_id">Address</label>
                         <?php
                             // query all address that are not used by customer, store, and staff
-                            $options_query2 = "SELECT a.address_id FROM address a
+                            $options_query2 = "SELECT a.address_id, a.address FROM address a
                                                 WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
                                                 NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
                                                 NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
                                                 ORDER BY a.address";
                             $address_search = mysqli_query($conn, $options_query2);                     
-					
-                            echo "<select id='address' class='form-control' size='0' name='address_id'>";
+                            // TODO: show address name instead of address ID
+                            echo "<select id='address' class= 'form-control form-control-sm' name='address_id'>";
                             echo "<option value='" . $original_data[0]['address_id'] . "' selected>" . $original_data[0]['address_id'] . "</option>";
                             if(mysqli_num_rows($address_search) > 0){
                                 while($row = mysqli_fetch_assoc($address_search)) {
@@ -212,7 +213,7 @@
                 
             </form>
         </div>
-      
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     
     </div>

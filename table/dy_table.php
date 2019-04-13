@@ -119,8 +119,7 @@
         $fetch2 = mysqli_fetch_all($query_result2, MYSQLI_NUM);
         $row_count = mysqli_num_rows($query_result2);
         $field_count = mysqli_num_fields($query_result2);
-        // var_dump($field_count);
-        // var_dump($fetch2[0][0]);
+
 
         for($i = 0; $i < $row_count; $i++) {
             echo '<tr>';
@@ -131,17 +130,30 @@
                 echo $fetch2[$i][$j];
                 echo '</td>';
             }
-            echo '<td>
-                  <div class="row">
-                  <a style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
-                  </div>
-                  <div class="row">
-                  <a style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
-                  </div>
-                  ';
-            echo '</tr>';
-            // problem cause it will keep replacing $_SESSION[id]
-            // $_SESSION['id'] = $fetch2[$i][0];
+
+            // different template for JOINT tables 
+            if($table_name == "film_actor" || $table_name == "film_category") {
+                echo '<td>
+                        <div class="container">
+                        <div class="row">
+                        <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id1='.$fetch2[$i][0].'&id2='.$fetch2[$i][1].'"><i class="far fa-edit"></i>Update</a>
+                        <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                        </div>
+                        </div>
+                          ';
+                  echo '</tr>';
+
+            } else {
+                  echo '<td>
+                        <div class="container">
+                        <div class="row">
+                        <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
+                        <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                        </div>
+                        </div>
+                          ';
+                  echo '</tr>';
+            }
         }        
 
 

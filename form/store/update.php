@@ -1,9 +1,43 @@
 <?php
     include "../../includes/database.php";
+    include "../../includes/check_login.php";
     $conn = connect();
     
+    $response = "";
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM store WHERE store_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $manager_staff_id = !empty($_POST['manager_staff_id'])?$_POST['manager_staff_id']:$fetch[0]['manager_staff_id'];
+        $address_id = !empty($_POST['address_id'])?$_POST['address_id']:$fetch[0]['address_id'];
+
+        $update_query = "UPDATE store SET manager_staff_id=".$manager_staff_id.", address_id=".$address_id." 
+                            WHERE store_id = ".$id;
+
+        if($address_id != 'NULL'){
+            $result = mysqli_query($conn, $update_query);
+
+            if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=store');
+            } else {
+                $response = "Insert failed.";
+            }
+        } else {
+            $response = "No available addresses.";
+        } 
     }
 ?>
 
@@ -60,6 +94,12 @@
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
+
+    <?php 
+        $check_query2 = "SELECT store.*, address.address FROM store INNER JOIN address ON store.address_id = address.address_id WHERE store_id =".$id;
+        // $check_query2 = "SELECT film_category.*, film.title FROM film_category INNER JOIN film ON film_category.film_id = film.film_id WHERE film_category.film_id =".$id1." AND  film_category.category_id=".$id2 ; 
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+    ?>
     
 
     <!-- Page Content -->
@@ -70,23 +110,44 @@
             <h4 class="mb-0">Store</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form class="form" role="form" autocomplete="off" method = "POST">
             <div class="form-group">
                 <label for="manager_staff_id">Manager Staff ID</label>
-                <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="">
+                <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="" value = "<?php echo $original_data[0]['manager_staff_id'] ?>">
             </div>
-            <div class="form-group">
-                <label for="address_id">Address ID</label>
-                <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="">
-            </div>
+                <div class="form-group">
+                    <label for="addres_id">Address ID</label>
+                    <?php
+                        // query all address that are not used by customer, store, and staff
+                        $options_query2 = "SELECT a.address_id, a.address FROM address a
+                                            WHERE NOT EXISTS(SELECT c.address_id FROM customer c WHERE a.address_id = c.address_id) AND 
+                                            NOT EXISTS(SELECT s.address_id FROM store s WHERE a.address_id = s.address_id) AND 
+                                            NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
+                                            ORDER BY a.address";
+                        $address_search = mysqli_query($conn, $options_query2);                     
+                        // TODO: show address name instead of address ID
+                        echo "<select id='address' class= 'form-control form-control-lg rounded-0' name='address_id'>";
+                        echo "<option value='" . $original_data[0]['address_id'] . "' selected>(" . $original_data[0]['address_id'] . "). " . $original_data[0]['address'] . "</option>";
+                        if(mysqli_num_rows($address_search) > 0){
+                            while($row = mysqli_fetch_assoc($address_search)) {
+                                echo "<option value='" . $row['address_id'] . "'>(" . $row['address_id'] . "). "  .$row['address']. "</option>";                                                   
+                            }
+                        }
+                        else 
+                            echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                echo "</select>";
+                ?>
+                </div>
+
             <div class="form-row">
                 <div class="col-lg-9">
                     <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=store'" >
-                    <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                    <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                 </div>
             </div>
             </form>
         </div>
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
     
@@ -96,3 +157,7 @@
 </div>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>
