@@ -107,7 +107,7 @@
                         <label for="film_id">Film</label>
 						<?php
                             echo "<select type='number' name='film_id' id='film_id' class='form-control rounded-0'>";
-							$sql2 = "SELECT film_id, title FROM film";
+							$sql2 = "SELECT film_id, title FROM film ORDER BY title";
 							$film_search = mysqli_query($conn, $sql2);
 							if(mysqli_num_rows($film_search) > 0){
 								while($row = mysqli_fetch_assoc($film_search)){
@@ -124,7 +124,7 @@
                         <label for="Store_id">Store ID</label>
 						<?php
                             echo "<select type='number' name='store_id' id='Store_id' class='form-control rounded-0'>";
-							$sql3 = "SELECT store_id FROM store";
+							$sql3 = "SELECT store_id FROM store ORDER BY store_id";
 							$store_search = mysqli_query($conn, $sql3);
 							if(mysqli_num_rows($store_search) > 0){
 								while($row = mysqli_fetch_assoc($store_search)){
