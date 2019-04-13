@@ -1,10 +1,58 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
-    
+    $response = "";
+	
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){ 
+		$customer_id = isset($_POST['customer_id'])?$_POST['customer_id']:"";
+		$staff_id = isset($_POST['staff_id'])?$_POST['staff_id']:"";
+		$rental_id = isset($_POST['rental_id'])?$_POST['rental_id']:"";
+		$amount = isset($_POST['amount'])?$_POST['amount']:"";
+		$sql = "INSERT INTO payment(customer_id,staff_id,rental_id,amount,payment_date) 
+					VALUES('$customer_id','$staff_id','$rental_id','$amount', CURRENT_TIMESTAMP)";
+					
+	if($rental_id != 'NULL' && $customer_id != 'NULL' && $staff_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+	
+	else if($rental_id == 'NULL' && $customer_id != 'NULL' && $staff_id != 'NULL'){
+		$response = "No available rental.";
+	}
+
+	else if($rental_id != 'NULL' && $customer_id == 'NULL' && $staff_id != 'NULL'){
+		$response = "No available customer.";
+	}
+	
+	else if($rental_id != 'NULL' && $customer_id != 'NULL' && $staff_id == 'NULL'){
+		$response = "No available staff.";
+	}
+	
+	else if($rental_id == 'NULL' && $customer_id == 'NULL' && $staff_id != 'NULL'){
+		$response = "No available rental and customer.";
+	}
+	
+	else if($rental_id == 'NULL' && $customer_id != 'NULL' && $staff_id == 'NULL'){
+		$response = "No available rental and staff.";
+	}
+	
+	else if($rental_id != 'NULL' && $customer_id == 'NULL' && $staff_id == 'NULL'){
+		$response = "No available customer and staff.";
+	}
+	
+	else if($rental_id == 'NULL' && $customer_id == 'NULL' && $staff_id == 'NULL'){
+		$response = "No available rental, customer and staff.";
+	}
+
+}
 ?>
 
 
@@ -72,21 +120,41 @@
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-row">
                     <div class="col-sm-6">
-                        <label for="customer_id">Customer ID</label>
-                            <select type="number" name="customer_id" id="customer_id" class="form-control form-control-sm rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+                        <label for="customer_id">Customer ID</label>           
+						<?php
+                            echo "<select type='number' name='customer_id' id='customer_id' class='form-control form-control-sm rounded-0'>";
+							$sql2 = "SELECT customer_id FROM customer ORDER BY customer_id";
+							$customer_search = mysqli_query($conn,$sql2);
+							if(mysqli_num_rows($customer_search) > 0){
+								while($row = mysqli_fetch_assoc($customer_search)){
+									echo "<option value='" . $row['customer_id'] . "'>" . $row['customer_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
                 </div>
                 <br>
                 <div class="form-row">
                     <div class="col-sm-6">
                         <label for="staff_id">Staff ID</label>
-                            <select type="number" name="staff_id" id="staff_id" class="form-control form-control-sm rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+					<?php
+                        echo "<select type='number' name='staff_id' id='staff_id' class='form-control form-control-sm rounded-0'>";
+							$sql3 = "SELECT staff_id FROM staff ORDER BY staff_id";
+							$staff_search = mysqli_query($conn,$sql3);
+							if(mysqli_num_rows($staff_search) > 0){
+								while($row = mysqli_fetch_assoc($staff_search)){
+									echo "<option value='" . $row['staff_id'] . "'>" . $row['staff_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
                 </div>
                 
@@ -94,11 +162,30 @@
                 <div class="form-row">
                     <div class="col-sm-6">
                         <label for="rental_id">Rental ID</label>
-                            <select type="number" name="rental_id" id="rental_id" class="form-control form-control-sm rounded-0 ">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+					<?php
+                        echo '<select type="number" name="rental_id" id="rental_id" class="form-control form-control-sm rounded-0 ">';
+							$sql4 = "SELECT rental_id FROM rental r WHERE 
+							NOT EXISTS(SELECT rental_id from payment p where r.rental_id = p.rental_id)
+							ORDER BY rental_id";
+							$rental_search = mysqli_query($conn,$sql4);
+							if(mysqli_num_rows($rental_search) > 0){
+								while($row = mysqli_fetch_assoc($rental_search)){
+									echo "<option value='" . $row['rental_id'] . "'>" . $row['rental_id'] . "</option>";
+								}
+							}
+							else{
+                                echo "<option value='NULL'>--NULL--</option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
+<<<<<<< HEAD
+=======
+                    <div class="col">
+                        <label for="payment_date">Payment Date</label>
+                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date"  placeholder="For example:2014-01-02T11:42:13.510">
+                    </div>
+>>>>>>> 232195d887698a3b8447c4297b2f0a129c58d9a4
                 </div>
                 <br>
                 <div class="form-group">
@@ -109,10 +196,18 @@
             </form>
         </div>
       
-    
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>

@@ -136,7 +136,7 @@
 							}
                             echo "</select>";
 						?>
-                            </select>
+                            
                     </div>
                 </div>
                 <br>
