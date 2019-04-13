@@ -1,8 +1,13 @@
 <?php
     include "../../includes/database.php";
+    session_start();
     $conn = connect();
 
     $response ="";
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
@@ -181,7 +186,7 @@
                     <label class="col-lg-3 col-form-label form-control-label"></label>
                     <div class="col-lg-9">
                         <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=address'" >  
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                        <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>
             </form>

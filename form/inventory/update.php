@@ -1,9 +1,43 @@
 <?php
     include "../../includes/database.php";
+    session_start();
+
     $conn = connect();
+
+    $response = "";
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+    
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM inventory WHERE inventory_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $film_id = !empty($_POST['film_id'])?$_POST['film_id']:$fetch[0]['film_id'];
+        $store_id = !empty($_POST['store_id'])?$_POST['store_id']:$fetch[0]['store_id'];
+
+        $update_query = "UPDATE inventory SET film_id='".$film_id."', store_id='".$store_id."' WHERE inventory_id = ".$id;
+
+        $result = mysqli_query($conn, $update_query);
+        if($result) {
+            $response = "Database updated successfully.";
+            unset($_SESSION['id']);
+            header('Location: ../../table/dy_table.php?table_name=inventory');
+        } else {
+            $response = "Insert failed.";
+        }
     }
 ?>
 
@@ -71,35 +105,69 @@
             <h4 class="mb-0">Inventory</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form class="form" role="form" autocomplete="off" method = "POST">
             <div class="form-row">
                     <div class="col">
                         <label for="film_id">Film ID</label>
-                            <select type="number" name="film_id" id="film_id" class="form-control rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+                        <?php
+                            $check_query2 = "SELECT film_id FROM inventory WHERE inventory_id =".$id;
+                            $original_film = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
+
+                            $options_query = "SELECT title, film_id FROM film ORDER BY title";
+					        $city_search = mysqli_query($conn, $options_query);
+					
+                            echo "<select id='film' class='form-control' size='0' name='film_id'>";
+                            if(mysqli_num_rows($city_search) > 0){
+                                while($row = mysqli_fetch_assoc($city_search)) {
+                                    if($row['film_id'] == $original_film[0]['film_id']) {
+                                        echo "<option value='" . $row['film_id'] . "' selected>" . $row['title'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['film_id'] . "'>" . $row['title'] . "</option>";
+                                    }                                    
+                                }
+                            }
+                            else 
+                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                    echo "</select>";
+					?>  
                     </div>
                     <div class="col">
                         <label for="Store_id">Store ID</label>
-                            <select type="number" name="Store_id" id="Store_id" class="form-control rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+                        <?php
+                            $check_query3 = "SELECT store_id FROM inventory WHERE inventory_id =".$id;
+                            $original_store = mysqli_fetch_all(mysqli_query($conn, $check_query3), MYSQLI_ASSOC);
+
+                            $options_query = "SELECT store_id FROM store ORDER BY store_id";
+					        $store_search = mysqli_query($conn, $options_query);
+					
+                            echo "<select id='store' class='form-control' size='0' name='store_id'>";
+                            if(mysqli_num_rows($store_search) > 0){
+                                while($row = mysqli_fetch_assoc($store_search)) {
+                                    if($row['store_id'] == $original_store[0]['store_id']) {
+                                        echo "<option value='" . $row['store_id'] . "' selected>" . $row['store_id'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['store_id'] . "'>" . $row['store_id'] . "</option>";
+                                    }                                    
+                                }
+                            } else {
+                                    echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                            }
+                            echo "</select>";
+                        ?>
                     </div>
                 </div>
                 <br>
                 <div class="form-row">
                     <div class="col-lg-9">
-                    <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=inventory'" >
-                        <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                        <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=inventory'" >
+                        <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                     </div>
                 </div>
             </form>
         </div>
     </div>
-      
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
+
     
     </div>
     <!-- /#page-content-wrapper -->

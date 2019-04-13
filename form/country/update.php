@@ -1,9 +1,42 @@
 <?php
     include "../../includes/database.php";
+    session_start();
     $conn = connect();
+    
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $check_query = "SELECT * FROM country WHERE country_id = ".$id;
+        $check_result = mysqli_query($conn, $check_query);
+        $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+        $country = !empty($_POST['country'])?$_POST['country']:$fetch[0]['country'];
+      
+        $update_query = "UPDATE country SET country='".$country."' 
+                            WHERE country_id = ".$id;
+
+        $result = mysqli_query($conn, $update_query);
+       
+        if($result) {
+            $response = "Database updated successfully.";
+            unset($_SESSION['id']);
+            header('Location: ../../table/dy_table.php?table_name=country');
+        } else {
+            $response = "Insert failed.";
+        }
+      
     }
 ?>
 
@@ -62,6 +95,11 @@
     <!-- /#sidebar-wrapper -->
     
 
+    <?php 
+        $check_query2 = "SELECT country FROM country WHERE country_id =".$id;
+        $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);    
+    ?>
+
     <!-- Page Content -->
     <div class="page-content-wrapper container" id ="database-table">
     <div class="card rounded-0">
@@ -72,13 +110,13 @@
             <form class="form" role="form" id="formInsert"  method="POST">
             <div class="form-group">
               <label for="country">Country</label>
-              <input type="text" class="form-control form-control-lg rounded-0" name="country" id="country" required="">
+              <input type="text" class="form-control form-control-lg rounded-0" name="country" id="country" required="" value = "<?php echo $original_data[0]['country'] ?>">
             </div>
                 <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=country'" >  
-                <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                <input type="submit" class="btn btn-outline-dark" value="Save Changes">
             </form>
         </div>
-      
+        <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     
     </div>
@@ -86,3 +124,8 @@
 </div>
 </body>
 </html>
+
+
+<?php 
+  mysqli_close($conn);
+?>

@@ -4,7 +4,11 @@
 	
     $conn = connect();
     $response = "";
-	
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../loginpage.php');
+    }
+
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
@@ -171,3 +175,11 @@
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>

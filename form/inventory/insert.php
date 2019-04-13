@@ -1,10 +1,42 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$film_id = isset($_POST['film_id'])?$_POST['film_id']:""; 
+		$store_id = isset($_POST['store_id'])?$_POST['store_id']:"";
+		
+		$sql = "INSERT INTO inventory(film_id,store_id) 
+					VALUES('$film_id','$store_id')";
+		
+	if($store_id != 'NULL' && $film_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+	
+	else if($film_id == 'NULL' && $store_id != 'NULL'){
+		$response = "No available film.";
+	}
+
+	else if($store_id == 'NULL' && $film_id != 'NULL'){
+		$response = "No available store.";
+	}
+	
+	else if($store_id == 'NULL' && $film_id == 'NULL'){
+		$response = "No available store and film.";
+	}
+	
+	}
+	
 ?>
 
 
@@ -72,17 +104,38 @@
             <form class="form" role="form" id="formInsert"  method="POST">
             <div class="form-row">
                     <div class="col">
-                        <label for="film_id">Film ID</label>
-                            <select type="number" name="film_id" id="film_id" class="form-control rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
+                        <label for="film_id">Film</label>
+						<?php
+                            echo "<select type='number' name='film_id' id='film_id' class='form-control rounded-0'>";
+							$sql2 = "SELECT film_id, title FROM film ORDER BY title";
+							$film_search = mysqli_query($conn, $sql2);
+							if(mysqli_num_rows($film_search) > 0){
+								while($row = mysqli_fetch_assoc($film_search)){
+									echo "<option value='" . $row['film_id'] . "'>" . $row['title'] . "</option>";
+                                }
+							}
+							else{
+								echo "<option value='NULL'> --NULL-- </option>";
+							}
+                            echo "</select>";
+						?>
                     </div>
                     <div class="col">
                         <label for="Store_id">Store ID</label>
-                            <select type="number" name="Store_id" id="Store_id" class="form-control rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
+						<?php
+                            echo "<select type='number' name='store_id' id='Store_id' class='form-control rounded-0'>";
+							$sql3 = "SELECT store_id FROM store ORDER BY store_id";
+							$store_search = mysqli_query($conn, $sql3);
+							if(mysqli_num_rows($store_search) > 0){
+								while($row = mysqli_fetch_assoc($store_search)){
+									echo "<option value='" . $row['store_id'] . "'>" . $row['store_id'] . "</option>";
+                                }
+							}
+							else{
+								echo "<option value='NULL'> --NULL-- </option>";
+							}
+                            echo "</select>";
+						?>
                             </select>
                     </div>
                 </div>
@@ -91,10 +144,18 @@
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p> 
     
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
