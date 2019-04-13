@@ -116,7 +116,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="text" class="form-control form-control-sm rounded-0" name ="email" id="email" required="" >
+                    <input type="email" class="form-control form-control-sm rounded-0" name ="email" id="email" required="" >
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
                 <div class="row">

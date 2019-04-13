@@ -55,12 +55,56 @@
     align-content: right;
   }
 
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
   .scrollable{
-    height:500px;
+    height: 350px;
+    position: relative;
+    display: block;
+    overflow : auto;
+  
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .scrollable{
+    height: 500px;
     position: relative;
     display: block;
     overflow : auto;
   }
+} 
+
+
+
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .scrollable{
+    height: 650px;
+    position: relative;
+    display: block;
+    overflow : auto;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .scrollable{
+    height: 700px;
+    position: relative;
+    display: block;
+    overflow : auto;
+  }
+}
+
+
+
+
   
 #text-in-container{
   padding-top: 50px;
