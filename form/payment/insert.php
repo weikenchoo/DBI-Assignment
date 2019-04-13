@@ -71,16 +71,9 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-row">
-                    <div class="col">
+                    <div class="col-sm-6">
                         <label for="customer_id">Customer ID</label>
                             <select type="number" name="customer_id" id="customer_id" class="form-control form-control-sm rounded-0">
-                                <option value="">01234</option>
-                                <option value="">56789</option>
-                            </select>
-                    </div>
-                    <div class="col">
-                        <label for="staff_id">Staff ID</label>
-                            <select type="number" name="staff_id" id="staff_id" class="form-control form-control-sm rounded-0">
                                 <option value="">01234</option>
                                 <option value="">56789</option>
                             </select>
@@ -88,16 +81,23 @@
                 </div>
                 <br>
                 <div class="form-row">
-                    <div class="col">
+                    <div class="col-sm-6">
+                        <label for="staff_id">Staff ID</label>
+                            <select type="number" name="staff_id" id="staff_id" class="form-control form-control-sm rounded-0">
+                                <option value="">01234</option>
+                                <option value="">56789</option>
+                            </select>
+                    </div>
+                </div>
+                
+                <br>
+                <div class="form-row">
+                    <div class="col-sm-6">
                         <label for="rental_id">Rental ID</label>
                             <select type="number" name="rental_id" id="rental_id" class="form-control form-control-sm rounded-0 ">
                                 <option value="">01234</option>
                                 <option value="">56789</option>
                             </select>
-                    </div>
-                    <div class="col">
-                        <label for="payment_date">Payment Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date" required="" placeholder="For example:2014-01-02T11:42:13.510">
                     </div>
                 </div>
                 <br>

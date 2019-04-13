@@ -117,7 +117,7 @@
         <div class="card-body">
             <form class="form" role="form" autocomplete="off" method ="POST">
             <div class="form-row">
-                    <div class="col">
+                    <div class="col-sm-6">
                         <label for="customer_id">Customer ID</label>
                         <?php
                             $check_query2 = "SELECT customer_id, staff_id, rental_id, payment_date, amount FROM payment WHERE payment_id =".$id;
@@ -141,12 +141,16 @@
                                     echo "</select>";
 					?>
                     </div>
-                    <div class="col">
+                    
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-sm-6">
                         <label for="staff_id">Staff ID</label>
                         <?php
-					        $options_query2 = "SELECT first_name, last_name, staff_id FROM staff ORDER BY first_name";
-					        $staff_search = mysqli_query($conn, $options_query2);
-					
+                            $options_query2 = "SELECT first_name, last_name, staff_id FROM staff ORDER BY first_name";
+                            $staff_search = mysqli_query($conn, $options_query2);
+                    
                             echo "<select id='staff' class='form-control' size='0' name='staff_id'>";
                             if(mysqli_num_rows($staff_search) > 0){
                                 while($row = mysqli_fetch_assoc($staff_search)) {
@@ -160,49 +164,46 @@
                             else 
                                 echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
                                     echo "</select>";
-					?>
+                    ?>
                     </div>
-                </div>
-                <br>
-                <div class="form-row">
-                    <div class="col">
-                        <label for="rental_id">Rental ID</label>
-                        <?php
-					        $options_query3 = "SELECT r.rental_id FROM rental r
-                                                WHERE NOT EXISTS(SELECT p.rental_id FROM payment p WHERE r.rental_id = p.rental_id) 
-                                                ORDER BY r.rental_date";
-                            $rental_search = mysqli_query($conn, $options_query3);                         
-					
-                            echo "<select id='rental' class='form-control' size='0' name='rental_id'>";
-                            echo "<option value='" . $original_data[0]['rental_id'] . "' selected>" . $original_data[0]['rental_id'] . "</option>";
-                            if(mysqli_num_rows($rental_search) > 0){
-                                while($row = mysqli_fetch_assoc($rental_search)) {
-                                    echo "<option value='" . $row['rental_id'] . "'>" . $row['rental_id'] . "</option>";                                     
-                                }
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-sm-6">
+                    <label for="rental_id">Rental ID</label>
+                    <?php
+                        $options_query3 = "SELECT r.rental_id FROM rental r
+                                            WHERE NOT EXISTS(SELECT p.rental_id FROM payment p WHERE r.rental_id = p.rental_id) 
+                                            ORDER BY r.rental_date";
+                        $rental_search = mysqli_query($conn, $options_query3);                         
+                
+                        echo "<select id='rental' class='form-control' size='0' name='rental_id'>";
+                        echo "<option value='" . $original_data[0]['rental_id'] . "' selected>" . $original_data[0]['rental_id'] . "</option>";
+                        if(mysqli_num_rows($rental_search) > 0){
+                            while($row = mysqli_fetch_assoc($rental_search)) {
+                                echo "<option value='" . $row['rental_id'] . "'>" . $row['rental_id'] . "</option>";                                     
                             }
-                            else 
-                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
-                                    echo "</select>";
-					?>
-                    </div>
-                    <div class="col">
-                        <label for="payment_date">Payment Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date" required="" placeholder="For example:2014-01-02T11:42:13.510" value = "<?php echo  $original_data[0]['payment_date']?>" disabled>
-                    </div>
+                        }
+                        else 
+                            echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
+                                echo "</select>";
+                ?>
                 </div>
-                <br>
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" step="0.01" class="form-control form-control-sm rounded-0 col-sm-6" name="amount" value = "<?php echo  $original_data[0]['amount']?>" id="amount" required="">
+                
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" step="0.01" class="form-control form-control-sm rounded-0 col-sm-6" name="amount" value = "<?php echo  $original_data[0]['amount']?>" id="amount" required="">
+            </div>
+            <div class="form-row">
+                <div class="col-lg-9">
+                    <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=payment'" >
+                    <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                 </div>
-                <div class="form-row">
-                    <div class="col-lg-9">
-                        <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=payment'" >
-                        <input type="submit" class="btn btn-outline-dark" value="Save Changes">
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
         <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
