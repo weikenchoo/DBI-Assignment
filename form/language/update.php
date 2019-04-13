@@ -1,9 +1,42 @@
 <?php
     include "../../includes/database.php";
     $conn = connect();
+
+    $response = "";
+
+    if(!isset($_SESSION['login_user'])){
+      header('Location: ../../loginpage.php');
+    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
+    }
+
+    if(isset($_GET["id"])) {
+        $_SESSION['id'] = $_GET["id"];
+        $id = $_SESSION['id'];
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+      $check_query = "SELECT * FROM language WHERE language_id = ".$id;
+      $check_result = mysqli_query($conn, $check_query);
+      $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
+
+      $name = !empty($_POST['name'])?$_POST['name']:$fetch[0]['name'];
+
+      $update_query = "UPDATE language SET name = '".$name."' WHERE language_id = ".$id;
+      var_dump($update_query);
+
+      $result = mysqli_query($conn, $update_query);
+      var_dump($result);
+			if($result) {
+                $response = "Database updated successfully.";
+                unset($_SESSION['id']);
+                header('Location: ../../table/dy_table.php?table_name=language');
+            } else {
+                $response = "Insert failed.";
+            }
     }
 ?>
 
@@ -70,19 +103,25 @@
             <h4 class="mb-0">Language</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
+            <form class="form" role="form" autocomplete="off" method="POST">
+                <?php 
+                    $query = "SELECT * FROM language WHERE language_id =".$id;
+                    $result = mysqli_query($conn, $query);
+                    $fetch_ori = mysqli_fetch_all($result, MYSQLI_ASSOC);                            
+                ?>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control form-control-lg rounded-0" name="name" id="name" required="">
+                <input type="text" class="form-control form-control-lg rounded-0" name="name" id="name" value="<?php echo $fetch_ori[0]['name'] ?>" required="">
             </div>
             <div class="form-row">
                 <div class="col-lg-9">
-                <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=language'" >
-                    <input type="button" class="btn btn-outline-dark" value="Save Changes">
+                  <input type="button" class="btn btn-secondary" value="Cancel" onclick="window.location.href='../../table/dy_table.php?table_name=language'" >
+                  <input type="submit" class="btn btn-outline-dark" value="Save Changes">
                 </div>
             </div>
             </form>
         </div>
+      <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     </div>
       
     
