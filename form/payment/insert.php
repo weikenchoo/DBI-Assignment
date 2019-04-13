@@ -179,13 +179,6 @@
                             echo "</select>";
 						?>
                     </div>
-<<<<<<< HEAD
-=======
-                    <div class="col">
-                        <label for="payment_date">Payment Date</label>
-                        <input type="datetime-local" class="form-control form-control-sm rounded-0  " name="payment_date" id="payment_date"  placeholder="For example:2014-01-02T11:42:13.510">
-                    </div>
->>>>>>> 232195d887698a3b8447c4297b2f0a129c58d9a4
                 </div>
                 <br>
                 <div class="form-group">
