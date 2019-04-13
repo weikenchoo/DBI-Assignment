@@ -15,23 +15,30 @@
 		$email = isset($_POST['email'])?$_POST['email']:"";
 		$address_id = isset($_POST['address_id'])?$_POST['address_id']:"";
 		$active = isset($_POST['active'])?$_POST['active']:"";
-		echo $active;
 		$sql = "INSERT INTO customer(store_id,first_name,last_name,email,address_id,active,create_date) 
 					VALUES('$store_id','$f_name','$l_name','$email','$address_id',$active,CURRENT_TIMESTAMP)";
 					
-		if($address_id != 'NULL'){
+	if($store_id != 'NULL' && $address_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
 			if($result === TRUE)
 				$response = "Database updated successfully.";
 			else
 				$response = "Insert failed.";
 		}
-			
-		else{
-			$response = "No available address.";
-		}
+	
+	else if($address_id == 'NULL' && $store_id != 'NULL'){
+		$response = "No available address.";
+	}
 
-}
+	else if($store_id == 'NULL' && $address_id != 'NULL'){
+		$response = "No available store.";
+	}
+	
+	else if($store_id == 'NULL' && $film_id == 'NULL'){
+		$response = "No available store and address.";
+	}
+	
+	}
 ?>
 
 
@@ -109,7 +116,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="text" class="form-control form-control-sm rounded-0" name ="email" id="email" required="" >
+                    <input type="email" class="form-control form-control-sm rounded-0" name ="email" id="email" required="" >
                     <div class="invalid-feedback" style="color:black;" >Enter your password too!</div>
                 </div>
                 <div class="row">
@@ -180,4 +187,13 @@
     <!-- /#page-content-wrapper -->
 </div>
 </body>
+
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>

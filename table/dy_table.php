@@ -85,7 +85,15 @@
     
 
     <!-- Page Content -->
-    <div class="page-content-wrapper container" id ="database-table">
+    <div class="page-content-wrapper container mh-100" id ="database-table">
+      <!-- Testing search bar -->
+      <!-- <div class="input-group md-form form-sm form-1 pl-0">
+        <div class="input-group-prepend">
+          <span class="input-group-text " id="searchInput"><i class="fas fa-search text-white"
+              aria-hidden="true"></i></span>
+        </div>
+        <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
+      </div> -->
 
         <!-- TODO: format the header  -->
           <?php
@@ -93,6 +101,7 @@
           ?>
       <div class="scrollable table-responsive-md" >
         <table class="table table-hover table-bordered table-striped">
+          <thead class="thead-dark">
       <?php
         $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
         $query_result1 = mysqli_query($conn, $table_query);
@@ -104,7 +113,7 @@
         }
         echo '<th>Action</th>';
         echo '</tr>';
-
+        echo '</thead>';
         $data_query = "SELECT * FROM ".$table_name;
         $query_result2 = mysqli_query($conn, $data_query);
         $fetch2 = mysqli_fetch_all($query_result2, MYSQLI_NUM);
@@ -123,11 +132,11 @@
                 echo '</td>';
             }
             echo '<td>
-                  <div class="container">
                   <div class="row">
-                  <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
-                  <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                  <a style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
                   </div>
+                  <div class="row">
+                  <a style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
                   </div>
                   ';
             echo '</tr>';
