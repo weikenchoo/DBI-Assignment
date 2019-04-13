@@ -1,11 +1,7 @@
 <?php
     include "../../includes/database.php";
-    session_start();
+    include "../../includes/check_login.php";
     $conn = connect();
-    
-    if(!isset($_SESSION['login_user'])){
-      header('Location: ../../loginpage.php');
-    }
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
