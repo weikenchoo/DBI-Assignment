@@ -1,10 +1,41 @@
 <?php
     include "../../includes/database.php";
+	include "../../includes/check_login.php";
     $conn = connect();
+	$response = "";
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
     }
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$film_id = isset($_POST['film_id'])?$_POST['film_id']:""; 
+		$actor_id = isset($_POST['actor_id'])?$_POST['actor_id']:"";
+		
+		$sql = "INSERT INTO film_actor(actor_id ,film_id) 
+					VALUES('$actor_id','$film_id')";
+		
+	if($actor_id != 'NULL' && $film_id != 'NULL'){
+			$result = mysqli_query($conn, $sql);
+			if($result === TRUE)
+				$response = "Database updated successfully.";
+			else
+				$response = "Insert failed.";
+		}
+	
+	else if($film_id == 'NULL' && $actor_id != 'NULL'){
+		$response = "No available film.";
+	}
+
+	else if($actor_id == 'NULL' && $film_id != 'NULL'){
+		$response = "No available actor.";
+	}
+	
+	else if($actor_id == 'NULL' && $film_id == 'NULL'){
+		$response = "No available actor and film.";
+	}
+	
+	}
 ?>
 
 
@@ -72,28 +103,56 @@
         <div class="card-body">
             <form class="form" role="form" id="formInsert"  method="POST">
                 <div class="form-group">
-                  <label for="actor_id">Actor ID</label>
-                  <select class="form-control form-control-lg" name="actor_id" id="actor_id">                   
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                  <label for="actor_id">Actor</label>                                    
+						<?php
+                            echo ' <select class="form-control form-control-lg" name="actor_id" id="actor_id">';
+							$sql2 = "SELECT actor_id, CONCAT(first_name, ' ', last_name) as name FROM actor ORDER BY first_name";
+							$actor_search = mysqli_query($conn, $sql2);
+							if(mysqli_num_rows($actor_search) > 0){
+								while($row = mysqli_fetch_assoc($actor_search)){
+									echo "<option value='" . $row['actor_id'] . "'>" . $row['name'] . "</option>";
+                                }
+							}
+							else{
+								echo "<option value='NULL'> --NULL-- </option>";
+							}
+                            echo "</select>";
+						?>
                 </div>
                 <div class="form-group">
-                  <label for="film_id">Film ID</label>
-                  <select class="form-control form-control-lg" name="film_id" id="film_id">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                  </select>
+                  <label for="film_id">Film</label>                 
+						<?php
+                            echo ' <select class="form-control form-control-lg" name="film_id" id="film_id">';
+							$sql3 = "SELECT film_id, title FROM film ORDER BY title";
+							$film_search = mysqli_query($conn, $sql3);
+							if(mysqli_num_rows($film_search) > 0){
+								while($row = mysqli_fetch_assoc($film_search)){
+									echo "<option value='" . $row['film_id'] . "'>" . $row['title'] . "</option>";
+                                }
+							}
+							else{
+								echo "<option value='NULL'> --NULL-- </option>";
+							}
+                            echo "</select>";
+						?>
                 </div>
                 
                 <button type="submit" class="btn btn-outline-dark " >Insert</button>
             </form>
         </div>
       
-    
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>
     
     </div>
     <!-- /#page-content-wrapper -->
 </div>
 </body>
 </html>
+
+<?php
+
+
+mysqli_close($conn);
+//close connection
+
+?>
