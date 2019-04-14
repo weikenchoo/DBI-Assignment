@@ -122,34 +122,27 @@
                 <div class="form-group">
                   <label for="actor_id">Actor ID</label>
                         <?php
-                            $options_query = "SELECT actor_id, first_name, last_name FROM actor";
+                            $options_query = "SELECT actor_id, CONCAT(first_name, ' ', last_name) FROM actor WHERE actor_id =".$id1." ORDER BY first_name";
                             $actor_search = mysqli_query($conn, $options_query);                            
-          
-                            echo "<select id='actor' class='form-control form-control-lg' name='actor_id'>";
-                            if(mysqli_num_rows($actor_search) > 0){
-                                while($row = mysqli_fetch_assoc($actor_search)) {
-                                  if($row['actor_id'] == $original_data[0]['actor']) {
-                                    echo "<option value='" . $row['actor_id'] . "' selected>" . $row['actor_id'] . ". " . $row['first_name']  .  $row['last_name']  .  "</option>";                                                                  
-                                  } else {
-                                    echo "<option value='" . $row['actor_id'] . "'>" . $row['actor_id'] . ". " . $row['first_name']  .  $row['last_name']  .  "</option>";                                                                  
-                                  }                                                                
-                                }
-                            }
-                            else 
-                                echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
-                                    echo "</select>";
+                            $result = mysqli_fetch_assoc($actor_search);
+                              
+                            echo "<select id='actor' class='form-control form-control-lg' name='actor_id' disabled>";
+                            echo "<option selected>".$result['actor_id'].". ".$result["CONCAT(first_name, ' ', last_name)"]."</option>";
+                            echo "</select>";
 					              ?>
                 </div>
                 <div class="form-group">
                   <label for="film_id">Film ID</label>
-                        <?php
-                            $options_query2 = "SELECT f.film_id, FROM film f
-                                              WHERE NOT EXISTS(SELECT fa.film_id FROM film_actor fa WHERE f.film_id = fa.film_id)";
+                        <?php                            
+                            $options_query2 = "SELECT f.film_id, f.title, fa.actor_id FROM film f 
+                                                INNER JOIN film_actor fa ON f.film_id = fa.film_id 
+                                                GROUP BY f.film_id 
+                                                HAVING sum(fa.actor_id = ".$id1.") = 0";
+
                             $film_search = mysqli_query($conn, $options_query2);
 					
                             echo "<select id='film' class='form-control form-control-lg' name='film_id'>";
-                            echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " .  $original_data[0]['title'] . "</option>";
-
+                            echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " . $original_data[0]['title'] . "</option>";                                 
                             if(mysqli_num_rows($film_search) > 0){
                                 while($row = mysqli_fetch_assoc($film_search)) {
                                   echo "<option value='" . $row['film_id'] . "'>" . $row['film_id'] . ". " . $row['title'] . "</option>";                                 

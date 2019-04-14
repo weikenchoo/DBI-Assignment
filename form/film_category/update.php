@@ -118,19 +118,12 @@
               <label for="film_id">Film ID</label>
                 <?php
                     $options_query = "SELECT f.film_id, f.title FROM film f
-                                      WHERE NOT EXISTS(SELECT fc.film_id FROM film_category fc WHERE f.film_id = fc.film_id)";
+                                      WHERE NOT EXISTS(SELECT fc.film_id FROM film_category fc WHERE f.film_id = fc.film_id)";                    
                     $film_search = mysqli_query($conn, $options_query);                            
   
-                    echo "<select id='film' class='form-control form-control-lg' name='film_id'>";
+                    echo "<select id='film' class='form-control form-control-lg' name='film_id' disabled>";
                     echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " . $original_data[0]['title'] . "</option>";
-                    if(mysqli_num_rows($film_search) > 0){
-                        while($row = mysqli_fetch_assoc($film_search)) {
-                                echo "<option value='" . $row['film_id'] . "'>" . $row['film_id'] . ". " . $row['title'] . "</option>";                                                                  
-                        }
-                    }
-                    else 
-                        echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
-                            echo "</select>";
+                    echo "</select>";
                 ?>
             </div>
             <div class="form-group">
