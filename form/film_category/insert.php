@@ -122,7 +122,7 @@
 						?>
             </div>
             <div class="form-group">
-              <label for="category_id">Category ID</label>          
+              <label for="category_id">Category</label>          
 						<?php
                             echo ' <select class="form-control form-control-lg" name="category_id" id="category_id">';
 							$sql3 = "SELECT category_id, name FROM category ORDER BY name";
