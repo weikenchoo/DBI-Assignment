@@ -6,11 +6,16 @@
       header('Location: ../loginpage.php');
     }
 
+    $response = "";
     $conn = connect();
     
     if(isset($_GET["table_name"])) {
         $table_name = $_GET["table_name"];
         // var_dump($_SESSION);
+    }
+  
+    function alert($id) {
+      // echo $id;
     }
 ?>
 
@@ -72,7 +77,6 @@
         <a href="dy_table.php?table_name=film" class="list-group-item list-group-item-action bg-light">Film</a>
         <a href="dy_table.php?table_name=film_actor" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
         <a href="dy_table.php?table_name=film_category" class="list-group-item list-group-item-action bg-light">Film Category</a>
-        <a href="dy_table.php?table_name=film_text" class="list-group-item list-group-item-action bg-light">Film Text</a>
         <a href="dy_table.php?table_name=inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
         <a href="dy_table.php?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
         <a href="dy_table.php?table_name=payment" class="list-group-item list-group-item-action bg-light">Payment</a>
@@ -82,10 +86,32 @@
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
+
+    <?php 
+        $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
+        $query_result1 = mysqli_query($conn, $table_query);
+        $fetch1 = mysqli_fetch_all($query_result1, MYSQLI_ASSOC);
+                
+        
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+          $primary_key = $_POST['primary_key'];          
+          
+          $delete_query = "DELETE FROM ".$table_name." WHERE ".$fetch1[0]['COLUMN_NAME']." = ".$primary_key." ";
+          if(mysqli_query($conn, $delete_query)) {
+            $response = "Delete sucessful!";
+          } else {
+            $response = "Delete was unsucessful!";
+          }
+
+        }
+    ?>
+
     
 
     <!-- Page Content -->
+      <!-- TODO: format error message -->
     <div class="page-content-wrapper container mh-100" id ="database-table">
+    <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>    
       <!-- Testing search bar -->
       <!-- <div class="input-group md-form form-sm form-1 pl-0">
         <div class="input-group-prepend">
@@ -103,10 +129,6 @@
         <table class="table table-hover table-bordered table-striped">
           <thead class="thead-dark">
       <?php
-        $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
-        $query_result1 = mysqli_query($conn, $table_query);
-        $fetch1 = mysqli_fetch_all($query_result1, MYSQLI_ASSOC);
-
         echo '<tr>';
         foreach($fetch1 as $row) {
             echo '<th>'.$row['COLUMN_NAME'].'</th>';
@@ -137,7 +159,10 @@
                         <div class="container">
                         <div class="row">
                         <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id1='.$fetch2[$i][0].'&id2='.$fetch2[$i][1].'"><i class="far fa-edit"></i>Update</a>
-                        <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                        <form method = "POST">
+                        <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
+                        <input type = "submit" value="Delete" onClick=\'return confirm("Are you sure?");\'> 
+                        </form>                         
                         </div>
                         </div>
                           ';
@@ -148,7 +173,10 @@
                         <div class="container">
                         <div class="row">
                         <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
-                        <a class="col-xs-4" style="color:black" href="#"><i class="fas fa-trash"></i>Delete</a></td>
+                        <form method = "POST">
+                        <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
+                        <input type = "submit" value="Delete" onClick=\'return confirm("Are you sure?");\'> 
+                        </form> 
                         </div>
                         </div>
                           ';
@@ -180,9 +208,6 @@
 </html>
 
 <?php
-
-
 mysqli_close($conn);
 //close connection
-
 ?>
