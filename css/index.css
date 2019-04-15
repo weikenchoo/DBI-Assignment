@@ -115,10 +115,11 @@
   padding-top: 50px;
 }
 
+
 .navbar .nav-item .nav-link{
   color:white;
 }
-.navbar .nav-item :hover{
+.navbar .nav-item .nav-link:hover{
   color: beige;
 }
 
