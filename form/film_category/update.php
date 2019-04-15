@@ -32,9 +32,9 @@
             $result = mysqli_query($conn, $update_query);
 
             if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id1']);
                 unset($_SESSION['id2']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=film_category');
             } else {
                 $response = "Insert failed.";

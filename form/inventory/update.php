@@ -28,8 +28,8 @@
 
         $result = mysqli_query($conn, $update_query);
         if($result) {
-            $response = "Database updated successfully.";
             unset($_SESSION['id']);
+			$_SESSION['update_check'] = 1;
             header('Location: ../../table/dy_table.php?table_name=inventory');
         } else {
             $response = "Insert failed.";
@@ -103,7 +103,7 @@
             <form class="form" role="form" autocomplete="off" method = "POST">
             <div class="form-row">
                     <div class="col">
-                        <label for="film_id">Film ID</label>
+                        <label for="film_id">Film</label>
                         <?php
                             $check_query2 = "SELECT film_id FROM inventory WHERE inventory_id =".$id;
                             $original_film = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);

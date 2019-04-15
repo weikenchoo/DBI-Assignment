@@ -30,8 +30,8 @@
             $result = mysqli_query($conn, $update_query);
 
             if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=store');
             } else {
                 $response = "Insert failed.";
@@ -115,7 +115,7 @@
                 <input type="text" class="form-control form-control-lg rounded-0" name="manager_staff_id" id="ID" required="" value = "<?php echo $original_data[0]['manager_staff_id'] ?>">
             </div>
                 <div class="form-group">
-                    <label for="addres_id">Address ID</label>
+                    <label for="addres_id">Address</label>
                     <?php
                         // query all address that are not used by customer, store, and staff
                         $options_query = "SELECT a.address_id, a.address FROM address a

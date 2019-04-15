@@ -37,8 +37,8 @@
                 $result = mysqli_query($conn, $update_query);
 
                 if($result) {
-                    $response = "Database updated successfully.";
                     unset($_SESSION['id']);
+					$_SESSION['update_check'] = 1;
                     header('Location: ../../table/dy_table.php?table_name=rental');
                 } else {
                     $response = "Insert failed.";
@@ -142,7 +142,7 @@
                         ?>
                     </div>
                     <div class="col">
-                        <label for="customer_id">Customer ID</label>
+                        <label for="customer_id">Customer</label>
                         <?php
                             $options_query2 = "SELECT customer_id, first_name, last_name FROM customer";
                             $customer_search = mysqli_query($conn, $options_query2);                            

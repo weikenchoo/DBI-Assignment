@@ -34,8 +34,8 @@
         if($customer_id != 'NULL'){
             $result = mysqli_query($conn, $update_query);
 			if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=payment');
             } else {
                 $response = "Insert failed.";
@@ -112,7 +112,7 @@
             <form class="form" role="form" autocomplete="off" method ="POST">
             <div class="form-row">
                     <div class="col-sm-6">
-                        <label for="customer_id">Customer ID</label>
+                        <label for="customer_id">Customer</label>
                         <?php
                             $check_query2 = "SELECT customer_id, staff_id, rental_id, payment_date, amount FROM payment WHERE payment_id =".$id;
                             $original_data = mysqli_fetch_all(mysqli_query($conn, $check_query2), MYSQLI_ASSOC);
@@ -140,7 +140,7 @@
             <br>
             <div class="form-row">
                 <div class="col-sm-6">
-                        <label for="staff_id">Staff ID</label>
+                        <label for="staff_id">Staff</label>
                         <?php
                             $options_query2 = "SELECT first_name, last_name, staff_id FROM staff ORDER BY first_name";
                             $staff_search = mysqli_query($conn, $options_query2);

@@ -189,7 +189,7 @@
 		
 		if(isset($_SESSION['check'])){
 			echo "<script type='text/javascript'>
-				alert('Database updated successfully');
+				alert('Database updated successfully!');
 				</script>";
 				
 			unset($_SESSION['check']);
@@ -206,6 +206,14 @@
 				alert('Delete was unsuccessful!');
 				</script>";
 			unset($delete_check);
+		}
+		
+		if(isset($_SESSION['update_check'])){
+			echo "<script type='text/javascript'>
+				alert('Update successful!');
+				</script>";
+				
+			unset($_SESSION['update_check']);
 		}
 			
 

@@ -2,7 +2,6 @@
     include "../../includes/database.php";
     include "../../includes/check_login.php";
     $conn = connect();
-
     $response = "";
     
     if(isset($_GET["table_name"])) {
@@ -13,35 +12,28 @@
         $_SESSION['id'] = $_GET["id"];
         $id = $_SESSION['id'];
     }
-
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-
         $check_query = "SELECT * FROM staff WHERE staff_id = ".$id;
         $check_result = mysqli_query($conn, $check_query);
         $fetch = mysqli_fetch_all($check_result, MYSQLI_ASSOC);        
-
         $f_name = !empty($_POST['first_name'])?$_POST['first_name']:$fetch[0]['first_name'];
         $l_name = !empty($_POST['last_name'])?$_POST['last_name']:$fetch[0]['last_name'];
         $username = !empty($_POST['username'])?$_POST['username']:$fetch[0]['username'];
         $password = !empty($_POST['password'])?$_POST['password']:$fetch[0]['password'];
         $email = !empty($_POST['email'])?$_POST['email']:$fetch[0]['email'];
-
         // TODO: add image
-
         $address_id = !empty($_POST['address_id'])?$_POST['address_id']:$fetch[0]['address_id'];
         $store_id = !empty($_POST['store_id'])?$_POST['store_id']:$fetch[0]['store_id'];
         $active = $_POST['active'];
-
         $update_query = "UPDATE staff SET first_name='".$f_name."', last_name='".$l_name."', username='".$username."', password='".$password."',
                             email='".$email."', address_id=" . $address_id . ", store_id=" . $store_id . ", active =".$active."
                             WHERE staff_id = ".$id;
         
-
         if($address_id != 'NULL' && $store_id != 'NULL' && $password!= 'NULL'){
             $result = mysqli_query($conn, $update_query);            
 			if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=staff');
             } else {
                 $response = "Insert failed.";
@@ -50,7 +42,6 @@
 			$response = "Missing fields!";
 		}
     }
-
 ?>
 
 
@@ -156,7 +147,7 @@
                     <input type="file" class="form-control-file" name="picture" id="picture">
                 </div>
                 <div class="form-group">
-                    <label for="address_id">Address ID</label>
+                    <label for="address_id">Address</label>
                     <?php
                         // query all address that are not used by customer, store, and staff
                         $options_query = "SELECT a.address_id, a.address FROM address a
@@ -165,7 +156,6 @@
                                             NOT EXISTS(SELECT s2.address_id FROM staff s2 WHERE a.address_id = s2.address_id)
                                             ORDER BY a.address";
                         $address_search = mysqli_query($conn, $options_query);    
-
                         echo "<select id='address' class= 'form-control form-control-sm rounded-0 col-sm-6' name='address_id'>";
                         echo "<option value='" . $original_data[0]['address_id'] . "' selected>(" . $original_data[0]['address_id'] . "). " . $original_data[0]['address'] . "</option>";
                         if(mysqli_num_rows($address_search) > 0){
@@ -184,7 +174,6 @@
                         $options_query2 = "SELECT s.store_id FROM store s
                                             WHERE NOT EXISTS(SELECT ss.store_id FROM staff ss WHERE s.store_id = ss.store_id)";                                              
                         $store_search = mysqli_query($conn, $options_query2);    
-
                         echo "<select id='store' class= 'form-control form-control-sm rounded-0 col-sm-6' name='store_id'>";
                         echo "<option value='" . $original_data[0]['store_id'] . "' selected>" . $original_data[0]['store_id'] . "</option>";
                         if(mysqli_num_rows($store_search) > 0){

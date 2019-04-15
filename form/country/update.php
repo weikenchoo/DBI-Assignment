@@ -28,8 +28,8 @@
         $result = mysqli_query($conn, $update_query);
        
         if($result) {
-            $response = "Database updated successfully.";
             unset($_SESSION['id']);
+			$_SESSION['update_check'] = 1;
             header('Location: ../../table/dy_table.php?table_name=country');
         } else {
             $response = "Insert failed.";

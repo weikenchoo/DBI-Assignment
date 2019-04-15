@@ -30,8 +30,8 @@
         if($country_id != 'NULL'){
             $result = mysqli_query($conn, $update_query);
 			      if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=city');
             } else {
                 $response = "Insert failed.";
@@ -117,7 +117,7 @@
                     <input type="text" class="form-control form-control-lg rounded-0" name="city" id="city" required="" value = "<?php echo $original_data[0]['city']; ?>">
                 </div>
                 <div class="form-group">
-                  <label for="country_id">Country ID</label>
+                  <label for="country_id">Country</label>
                     <?php
                     $options_query = "SELECT country_id, country FROM country ORDER BY country";
                     $country_search = mysqli_query($conn, $options_query);

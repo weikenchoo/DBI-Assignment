@@ -37,8 +37,8 @@
             $result = mysqli_query($conn, $update_query);
 
             if($result) {
-                $response = "Database updated successfully.";
                 unset($_SESSION['id']);
+				$_SESSION['update_check'] = 1;
                 header('Location: ../../table/dy_table.php?table_name=customer');
             } else {
                 $response = "Insert failed.";
@@ -157,7 +157,7 @@
                   </div>
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="addres_id">Address ID</label>
+                      <label for="addres_id">Address</label>
                         <?php
                             // query all address that are not used by customer, store, and staff
                             $options_query2 = "SELECT a.address_id, a.address FROM address a

@@ -46,8 +46,8 @@
       if($language_id != 'NULL'){
         $result = mysqli_query($conn, $update_query);
         if($result === TRUE){
-          $response = "Database updated successfully.";
           $special_features = "";
+		  $_SESSION['update_check'] = 1;
           header('Location: ../../table/dy_table.php?table_name=film');
         }
         else
