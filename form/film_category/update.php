@@ -67,8 +67,8 @@
   </div>
   <div class="navbar nav-item" >
     <a class="nav-link" href="insert.php">Insert</a>
-    <a class="nav-link" href="../../table/dy_table.php?table_name=film_text">Update</a>
-    <a class="nav-link" href="../../table/dy_table.php?table_name=film_text">Delete</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=film_category">Update</a>
+    <a class="nav-link" href="../../table/dy_table.php?table_name=film_category">Delete</a>
   </div>
     
 </nav>
@@ -89,7 +89,6 @@
         <a href="../../table/dy_table.php?table_name=film" class="list-group-item list-group-item-action bg-light">Film</a>
         <a href="../../table/dy_table.php?table_name=film_actor" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
         <a href="../../table/dy_table.php?table_name=film_category" class="list-group-item list-group-item-action bg-light">Film Category</a>
-        <a href="../../table/dy_table.php?table_name=film_text" class="list-group-item list-group-item-action bg-light">Film Text</a>
         <a href="../../table/dy_table.php?table_name=inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
         <a href="../../table/dy_table.php?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
         <a href="../../table/dy_table.php?table_name=payment" class="list-group-item list-group-item-action bg-light">Payment</a>
@@ -118,19 +117,12 @@
               <label for="film_id">Film ID</label>
                 <?php
                     $options_query = "SELECT f.film_id, f.title FROM film f
-                                      WHERE NOT EXISTS(SELECT fc.film_id FROM film_category fc WHERE f.film_id = fc.film_id)";
+                                      WHERE NOT EXISTS(SELECT fc.film_id FROM film_category fc WHERE f.film_id = fc.film_id)";                    
                     $film_search = mysqli_query($conn, $options_query);                            
   
-                    echo "<select id='film' class='form-control form-control-lg' name='film_id'>";
+                    echo "<select id='film' class='form-control form-control-lg' name='film_id' disabled>";
                     echo "<option value='" . $original_data[0]['film_id'] . "' selected>" . $original_data[0]['film_id'] . ". " . $original_data[0]['title'] . "</option>";
-                    if(mysqli_num_rows($film_search) > 0){
-                        while($row = mysqli_fetch_assoc($film_search)) {
-                                echo "<option value='" . $row['film_id'] . "'>" . $row['film_id'] . ". " . $row['title'] . "</option>";                                                                  
-                        }
-                    }
-                    else 
-                        echo "<option value = 'NULL'>" . "--NULL--" . "</option>";
-                            echo "</select>";
+                    echo "</select>";
                 ?>
             </div>
             <div class="form-group">

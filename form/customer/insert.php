@@ -20,8 +20,11 @@
 					
 	if($store_id != 'NULL' && $address_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
-			if($result === TRUE)
-				$response = "Database updated successfully.";
+		if($result === TRUE){
+			$_SESSION['check'] = 1;
+			header('location:../../table/dy_table.php?table_name=customer');
+		}
+
 			else
 				$response = "Insert failed.";
 		}
@@ -84,7 +87,6 @@
         <a href="../../table/dy_table.php?table_name=film" class="list-group-item list-group-item-action bg-light">Film</a>
         <a href="../../table/dy_table.php?table_name=film_actor" class="list-group-item list-group-item-action bg-light">Film & Actor</a>
         <a href="../../table/dy_table.php?table_name=film_category" class="list-group-item list-group-item-action bg-light">Film Category</a>
-        <a href="../../table/dy_table.php?table_name=film_text" class="list-group-item list-group-item-action bg-light">Film Text</a>
         <a href="../../table/dy_table.php?table_name=inventory" class="list-group-item list-group-item-action bg-light">Inventory</a>
         <a href="../../table/dy_table.php?table_name=language" class="list-group-item list-group-item-action bg-light">Language</a>
         <a href="../../table/dy_table.php?table_name=payment" class="list-group-item list-group-item-action bg-light">Payment</a>
