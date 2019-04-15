@@ -47,7 +47,6 @@ $conn = connect();
               <i class="fas fa-sign-out-alt"></i> Log out
           </button>
       </form>
-
     
   </nav>
 </header>

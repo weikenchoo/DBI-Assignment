@@ -111,7 +111,6 @@
     
 
     <!-- Page Content -->
-      <!-- TODO: format error message -->
     <div class="page-content-wrapper container mh-100" id ="database-table">
     <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>    
       <!-- Testing search bar -->
@@ -164,6 +163,7 @@
                         <form method = "POST">
                         <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
                         <button class="unstyled-button" name="delete" type="submit" onClick=\'return confirm("Are you sure?");\'>
+
                         <i class="fa fa-trash" aria-hidden="true"></i>Delete
                         </form>                         
                         </div>
