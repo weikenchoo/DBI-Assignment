@@ -13,13 +13,14 @@
 		$last_name = isset($_POST['last_name'])?$_POST['last_name']:"";
 		$username = isset($_POST['username'])?$_POST['username']:"";
 		$password = isset($_POST['password'])?$_POST['password']:"";
+		$name = mysqli_real_escape_string($conn, $_FILES['picture']['name']);
 		$email = isset($_POST['email'])?$_POST['email']:"";
 		$address_id = isset($_POST['address_id'])?$_POST['address_id']:"";
 		$store_id = isset($_POST['store_id'])?$_POST['store_id']:"";
 		$active = isset($_POST['active'])?$_POST['active']:"";
 		
-		$sql = "INSERT INTO staff(first_name, last_name, address_id, email, store_id, active, username, password) 
-					VALUES('$first_name','$last_name', '$address_id', '$email', '$store_id', $active, '$username', '$password')";
+		$sql = "INSERT INTO staff(first_name, last_name, address_id, picture, email, store_id, active, username, password) 
+					VALUES('$first_name','$last_name', '$address_id', '$name', '$email', '$store_id', $active, '$username', '$password')";
 		
 	if($store_id != 'NULL' && $address_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
@@ -107,7 +108,7 @@
             <h3 class="mb-0">Staff</h3>
         </div>
         <div class="card-body">
-            <form class="form" role="form" id="formInsert" method="POST">
+            <form class="form" role="form" id="formInsert" method="POST" enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="col">
                         <label for="first_name">First Name</label>

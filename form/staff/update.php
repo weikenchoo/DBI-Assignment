@@ -21,12 +21,13 @@
         $username = !empty($_POST['username'])?$_POST['username']:$fetch[0]['username'];
         $password = !empty($_POST['password'])?$_POST['password']:$fetch[0]['password'];
         $email = !empty($_POST['email'])?$_POST['email']:$fetch[0]['email'];
+		$name = mysqli_real_escape_string($conn, $_FILES['picture']['name']);
         // TODO: add image
         $address_id = !empty($_POST['address_id'])?$_POST['address_id']:$fetch[0]['address_id'];
         $store_id = !empty($_POST['store_id'])?$_POST['store_id']:$fetch[0]['store_id'];
         $active = $_POST['active'];
         $update_query = "UPDATE staff SET first_name='".$f_name."', last_name='".$l_name."', username='".$username."', password='".$password."',
-                            email='".$email."', address_id=" . $address_id . ", store_id=" . $store_id . ", active =".$active."
+                            email='".$email."', address_id='" . $address_id . "', picture='" . $name . "', store_id=" . $store_id . ", active =".$active."
                             WHERE staff_id = ".$id;
         
         if($address_id != 'NULL' && $store_id != 'NULL' && $password!= 'NULL'){
@@ -115,7 +116,7 @@
             <h4 class="mb-0">Staff</h4>
         </div>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off" method = "POST">
+            <form class="form" role="form" autocomplete="off" method = "POST" enctype="multipart/form-data">
             <div class="form-row">
                     <div class="col">
                         <label for="first_name">First Name</label>
