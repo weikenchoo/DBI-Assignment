@@ -112,7 +112,6 @@
     
 
     <!-- Page Content -->
-      <!-- TODO: format error message -->
     <div class="page-content-wrapper container mh-100" id ="database-table">
     <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>    
       <!-- Testing search bar -->
