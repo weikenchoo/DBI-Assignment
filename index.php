@@ -76,7 +76,7 @@ $conn = connect();
       <div class = "container" id = "text-in-container">
         <h1>Welcome to SAKILA.</h1>
         <p class = "lead">SAKILA is a sample database of a company that rents out DVD to customers.</p> 
-        <p class = "lead">You are able to access 16 tables listed at the sidebar.</p>
+        <p class = "lead">You are the one of the staffs of the company, and you are able to access 15 tables listed at the sidebar.</p>
         <p class="lead">You are able to perform 3 actions which are <kbd>INSERT</kbd> , <kbd>UPDATE</kbd> , and <kbd>DELETE</kbd>  on each table present on the sidebar.</p>     
       </div>
       
