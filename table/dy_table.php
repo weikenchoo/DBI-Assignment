@@ -97,10 +97,13 @@
           $primary_key = $_POST['primary_key'];          
           
           $delete_query = "DELETE FROM ".$table_name." WHERE ".$fetch1[0]['COLUMN_NAME']." = ".$primary_key." ";
-          if(mysqli_query($conn, $delete_query)) {
-            $response = "Delete sucessful!";
-          } else {
-            $response = "Delete was unsucessful!";
+          if(mysqli_query($conn, $delete_query) === TRUE) {
+				$delete_check = 1;
+				
+          } 
+		  else {
+			    $delete_check = 0;
+
           }
 
         }
@@ -194,6 +197,20 @@
 				
 			unset($_SESSION['check']);
 		}
+		
+		if(isset($delete_check) && $delete_check == 1){
+			echo "<script type='text/javascript'>
+				alert('Delete successful!');
+				</script>";
+			unset($delete_check);
+		}
+		else if (isset($delete_check) && $delete_check == 0){
+			echo "<script type='text/javascript'>
+				alert('Delete was unsuccessful!');
+				</script>";
+			unset($delete_check);
+		}
+			
 
       ?>
       <!-- <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php"><i class="far fa-edit"></i>Update</a>

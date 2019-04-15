@@ -165,7 +165,7 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Postal Code</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="number" name="postcode" id="postcode" value = "<?php echo $fetch_ori[0]['postal_code'] ?>">
+                        <input class="form-control" type="number" name="postal_code" id="postal_code" value = "<?php echo $fetch_ori[0]['postal_code'] ?>">
                         
                     </div>
                 </div>
