@@ -175,7 +175,10 @@
                         <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
                         <form method = "POST">
                         <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
-                        <input type = "submit" value="Delete" onClick=\'return confirm("Are you sure?");\'> 
+                        <button class="unstyled-button" type="submit" onClick=\'return confirm("Are you sure?");\'>
+                        <i class="fa fa-trash" aria-hidden="true"></i>Delete
+                        </button>
+                        
                         </form> 
                         </div>
                         </div>
