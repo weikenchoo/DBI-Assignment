@@ -26,8 +26,10 @@
 					
 		if($city_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
-			if($result === TRUE)
-				$response = "Database updated successfully.";
+			if($result === TRUE){
+				$_SESSION['check'] = 1;
+				header('location:../../table/dy_table.php?table_name=address');
+			}
 			else
 				$response = "Insert failed.";
 		}

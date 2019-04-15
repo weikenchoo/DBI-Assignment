@@ -32,8 +32,8 @@
 	if($language_id != 'NULL'){
 		$result = mysqli_query($conn, $query1);
 		if($result === TRUE){
-			$response = "Database updated successfully.";
-			$special_features = "";
+			$_SESSION['check'] = 1;
+			header('location:../../table/dy_table.php?table_name=film');
 		}
 		else
 			$response = "Insert failed.";

@@ -1,7 +1,7 @@
 <?php
     include "../includes/database.php";
 	  session_start();
-
+	
     if(!isset($_SESSION['login_user'])){
       header('Location: ../loginpage.php');
     }
@@ -155,7 +155,14 @@
                   echo '</tr>';
             }
         }        
-
+		
+		if(isset($_SESSION['check'])){
+			echo "<script type='text/javascript'>
+				alert('Database updated successfully');
+				</script>";
+				
+			unset($_SESSION['check']);
+		}
 
       ?>
       <!-- <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php"><i class="far fa-edit"></i>Update</a>

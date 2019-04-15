@@ -18,8 +18,11 @@
 					
 	if($rental_id != 'NULL' && $customer_id != 'NULL' && $staff_id != 'NULL'){
 			$result = mysqli_query($conn, $sql);
-			if($result === TRUE)
-				$response = "Database updated successfully.";
+		if($result === TRUE){
+			$_SESSION['check'] = 1;
+			header('location:../../table/dy_table.php?table_name=payment');
+		}
+
 			else
 				$response = "Insert failed.";
 		}
