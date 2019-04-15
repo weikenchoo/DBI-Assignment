@@ -192,7 +192,7 @@
 				alert('Database updated successfully');
 				</script>";
 				
-			unset($delete_check);
+			unset($_SESSION['check']);
 		}
 		
 		if(isset($delete_check) && $delete_check == 1){
