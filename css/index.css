@@ -127,3 +127,14 @@
 h1{
   padding-bottom: 10px;
 }
+
+.unstyled-button {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+
+}
+.unstyled-button:hover {
+  text-decoration: underline;
+}
