@@ -8,6 +8,11 @@ if(!isset($_SESSION['login_user'])){
 	header('Location: loginpage.php');
 }
 
+if(isset($_POST['logout'])){
+     session_destroy();
+     header("Location: loginpage.php");
+}
+
 $conn = connect();
 
 ?>
@@ -42,13 +47,6 @@ $conn = connect();
               <i class="fas fa-sign-out-alt"></i> Log out
           </button>
       </form>
-
-  <?php
-    if(isset($_POST['logout'])){
-      session_destroy();
-      header("Location: loginpage.php");
-    }
-  ?>
     
   </nav>
 </header>
@@ -80,7 +78,7 @@ $conn = connect();
       <div class = "container" id = "text-in-container">
         <h1>Welcome to SAKILA.</h1>
         <p class = "lead">SAKILA is a sample database of a company that rents out DVD to customers.</p> 
-        <p class = "lead">You are able to access 16 tables listed at the sidebar.</p>
+        <p class = "lead">You are the one of the staffs of the company, and you are able to access 15 tables listed at the sidebar.</p>
         <p class="lead">You are able to perform 3 actions which are <kbd>INSERT</kbd> , <kbd>UPDATE</kbd> , and <kbd>DELETE</kbd>  on each table present on the sidebar.</p>     
       </div>
     </div>

@@ -40,7 +40,7 @@
 		$response = "No available store.";
 	}
 	
-	else if($store_id == 'NULL' && $film_id == 'NULL'){
+	else if($store_id == 'NULL' && $address_id == 'NULL'){
 		$response = "No available store and address.";
 	}
 	

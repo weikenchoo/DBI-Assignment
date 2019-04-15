@@ -17,6 +17,11 @@
     function alert($id) {
       // echo $id;
     }
+
+	if(isset($_POST['logout'])){
+	    session_destroy();
+	    header('location: ../loginpage.php');
+	}
 ?>
 
 
@@ -94,12 +99,12 @@
     <!-- /#sidebar-wrapper -->
 
     <?php 
-        $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'sakila' AND table_name ='".$table_name."'";        
+        $table_query = "SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'hfywc2_sakila' AND table_name ='".$table_name."'";        
         $query_result1 = mysqli_query($conn, $table_query);
         $fetch1 = mysqli_fetch_all($query_result1, MYSQLI_ASSOC);
                 
         
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
+        if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete'])) {
           $primary_key = $_POST['primary_key'];          
           
           $delete_query = "DELETE FROM ".$table_name." WHERE ".$fetch1[0]['COLUMN_NAME']." = ".$primary_key." ";
@@ -118,7 +123,6 @@
     
 
     <!-- Page Content -->
-      <!-- TODO: format error message -->
     <div class="page-content-wrapper container mh-100" id ="database-table">
     <p class="lead container" style="padding-left:20px">  <?php echo $response; $response=""; ?> </p>    
       <!-- Testing search bar -->
@@ -170,7 +174,9 @@
                         <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id1='.$fetch2[$i][0].'&id2='.$fetch2[$i][1].'"><i class="far fa-edit"></i>Update</a>
                         <form method = "POST">
                         <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
-                        <input type = "submit" value="Delete" onClick=\'return confirm("Are you sure?");\'> 
+                        <button class="unstyled-button" name="delete" type="submit" onClick=\'return confirm("Are you sure?");\'>
+
+                        <i class="fa fa-trash" aria-hidden="true"></i>Delete
                         </form>                         
                         </div>
                         </div>
@@ -184,7 +190,7 @@
                         <a class="col-xs-4" style="color:black" href="../form/'.$table_name.'/update.php?id='.$fetch2[$i][0].'"><i class="far fa-edit"></i>Update</a>
                         <form method = "POST">
                         <input type= "hidden" name="primary_key" value = '.$fetch2[$i][0].'> 
-                        <button class="unstyled-button" type="submit" onClick=\'return confirm("Are you sure?");\'>
+                        <button class="unstyled-button" name="delete" type="submit" onClick=\'return confirm("Are you sure?");\'>
                         <i class="fa fa-trash" aria-hidden="true"></i>Delete
                         </button>
                         
