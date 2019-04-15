@@ -29,45 +29,52 @@
     <title>Interface for SAKILA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/style2.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">    <script src="main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 </head>
 
 <body>
 <header>
 <nav class="navbar navbar-dark bg-dark">
-  <div class="navbar-header mr-auto">
-    <a class="navbar-brand" href = "../index.php">SAKILA</a>
+  <div class="d-flex justify-content-start">
+    <div class="row">
+      <button type="button" id="sidebarCollapse" class="btn" style="margin-left:20px">  
+          <i class="fas fa-align-left"></i>
+      </button>
+      <a class="col-sm-3 navbar-brand" style="color:white;margin-left:10px" href="../index.php">SAKILA</a>
+    </div>
   </div>
+
+  <div class="d-flex justify-content-end">
+    <div class="navbar">
+      <div class="nav-item">
+        <?php 
+          echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
+        ?>
+      </div>
+    </div>
   <div class="navbar nav-item" >
-    <!-- Backend will change href to respective tables -->
-    <?php 
-      echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
+    <form method="POST">
+        <button type="submit" class="btn btn-default btn-sm" name="logout">
+          <i class="fas fa-sign-out-alt"></i> Log out
+        </button>
+    </form>
+    <?php
+      if(isset($_POST['logout'])){
+        session_destroy();
+        header("Location: ../loginpage.php");
+      }
     ?>
   </div>
-
-<form method="POST">
-    <button type="submit" class="btn btn-default btn-sm" name="logout">
-      <i class="fas fa-sign-out-alt"></i> Log out
-    </button>
-</form>
-
-<?php
-	if(isset($_POST['logout'])){
-		session_destroy();
-		header("Location: ../loginpage.php");
-	}
-?>
-	
+  </div>
 </nav>
 </header>
 
 <div class="d-flex" id="wrapper">
-
+<nav id="sidebar">
     <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      
-      <div class="list-group list-group-flush">
         <a href="dy_table.php?table_name=actor" class="list-group-item list-group-item-action bg-light">Actor</a>
         <a href="dy_table.php?table_name=address" class="list-group-item list-group-item-action bg-light">Address</a>
         <a href="dy_table.php?table_name=category" class="list-group-item list-group-item-action bg-light">Category</a>
@@ -83,8 +90,7 @@
         <a href="dy_table.php?table_name=rental" class="list-group-item list-group-item-action bg-light">Rental</a>
         <a href="dy_table.php?table_name=staff" class="list-group-item list-group-item-action bg-light">Staff</a>
         <a href="dy_table.php?table_name=store" class="list-group-item list-group-item-action bg-light">Store</a> 
-      </div>
-    </div>
+</nav>
     <!-- /#sidebar-wrapper -->
 
     <?php 
@@ -232,6 +238,28 @@
     
     </div>
 </div>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
 </body>
 </html>
 
