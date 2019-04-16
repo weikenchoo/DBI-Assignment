@@ -266,7 +266,6 @@
               <div class="row">
               <div class="col-sm-6">
                   <div class="form-group">
-                      <!-- TODO: format the caption -->
                       <label for="special_features">Special features (Ctrl+click for multi select)</label>
                       <select multiple name="special_features_array[]" id="special_features" class="form-control form-control-sm" required="">
                         <option value="Behind the scenes">Behind the scenes</option>

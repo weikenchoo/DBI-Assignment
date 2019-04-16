@@ -22,7 +22,6 @@
         $password = !empty($_POST['password'])?$_POST['password']:$fetch[0]['password'];
         $email = !empty($_POST['email'])?$_POST['email']:$fetch[0]['email'];
 		$name = mysqli_real_escape_string($conn, $_FILES['picture']['name']);
-        // TODO: add image
         $address_id = !empty($_POST['address_id'])?$_POST['address_id']:$fetch[0]['address_id'];
         $store_id = !empty($_POST['store_id'])?$_POST['store_id']:$fetch[0]['store_id'];
         $active = $_POST['active'];

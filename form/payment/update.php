@@ -24,7 +24,6 @@
         $staff_id = !empty($_POST['staff_id'])?$_POST['staff_id']:$fetch[0]['staff_id'];
         $rental_id = !empty($_POST['rental_id'])?$_POST['rental_id']:$fetch[0]['rental_id'];
 
-        // TODO: decide to keep payment_date or not since its disable, therefore not modifiable
         // $payment_date = !empty($_POST['payment_date'])?$_POST['payment_date']:$fetch[0]['payment_date'];
         $amount = !empty($_POST['amount'])?$_POST['amount']:$fetch[0]['amount'];
 

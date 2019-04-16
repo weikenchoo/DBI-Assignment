@@ -132,7 +132,6 @@
         <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
       </div> -->
 
-        <!-- TODO: format the header  -->
           <?php
               echo '<h1>'.$table_name.'</h1>'; 
           ?>
