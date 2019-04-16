@@ -34,21 +34,28 @@ $conn = connect();
 
 <body>
 <header>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="navbar-right">
-      <button type="button" id="sidebarCollapse" class="btn">  
+<nav class="navbar navbar-dark bg-dark">
+  <div class="d-flex justify-content-start">
+    <div class="row">
+      <button type="button" id="sidebarCollapse" class="btn" style="margin-left:20px">  
           <i class="fas fa-align-left"></i>
       </button>
-      <a class="navbar-brand" style="color:white;padding-left:10px" href="index.php">SAKILA</a>
+      <a class="col-sm-3 navbar-brand" style="color:white;margin-left:10px" href="../index.php">SAKILA</a>
     </div>
+  </div>
 
-      <form method="POST">   
-          <button type="submit" class="btn btn-default btn-sm" name = "logout">
-              <i class="fas fa-sign-out-alt"></i> Log out
-          </button>
-      </form>
-    
-  </nav>
+  <div class="d-flex justify-content-end">
+    <div class="navbar">
+      <div class="nav-item">
+        <form method="POST">
+            <button type="submit" class="btn btn-default btn-sm" name="logout">
+                <i class="fas fa-sign-out-alt"></i> Log out
+            </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
 </header>
 
 <div class="d-flex" id="wrapper">

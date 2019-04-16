@@ -56,22 +56,19 @@
     <div class="navbar">
       <div class="nav-item">
         <?php 
-          echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
+          echo '<a id="insert" href="../form/'.$table_name.'/insert.php">Insert</a>';
         ?>
       </div>
     </div>
-  <div class="navbar nav-item" >
+  <div class="navbar" >
+  <div class="nav-item">
+  
     <form method="POST">
         <button type="submit" class="btn btn-default btn-sm" name="logout">
           <i class="fas fa-sign-out-alt"></i> Log out
         </button>
     </form>
-    <?php
-      if(isset($_POST['logout'])){
-        session_destroy();
-        header("Location: ../loginpage.php");
-      }
-    ?>
+  </div>
   </div>
   </div>
 </nav>

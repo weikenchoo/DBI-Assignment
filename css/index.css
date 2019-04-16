@@ -137,3 +137,7 @@ h1{
 .unstyled-button:hover {
   text-decoration: underline;
 }
+
+#insert{
+  color: white;
+}
