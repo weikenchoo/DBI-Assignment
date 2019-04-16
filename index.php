@@ -34,13 +34,13 @@ $conn = connect();
 
 <body>
 <header>
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark py-3">
   <div class="d-flex justify-content-start">
     <div class="row">
       <button type="button" id="sidebarCollapse" class="btn" style="margin-left:20px">  
           <i class="fas fa-align-left"></i>
       </button>
-      <a class="col-sm-3 navbar-brand" style="color:white;margin-left:10px" href="../index.php">SAKILA</a>
+      <a class="col-sm-3 navbar-brand" style="color:white;margin-left:10px" href="index.php">SAKILA</a>
     </div>
   </div>
 

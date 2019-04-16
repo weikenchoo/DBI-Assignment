@@ -56,7 +56,7 @@
     <div class="navbar">
       <div class="nav-item">
         <?php 
-          echo '<a id="insert" href="../form/'.$table_name.'/insert.php">Insert</a>';
+          echo '<a class="nav-link" href="../form/'.$table_name.'/insert.php">Insert</a>';
         ?>
       </div>
     </div>
